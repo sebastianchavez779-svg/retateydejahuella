@@ -364,19 +364,9 @@ function SlideContent({ slide }) {
               src={GIA_LOGO_SRC}
               alt="Logo GIA"
               className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
-              initial={{ opacity: 0, scale: 0.8, y: -220, rotate: -3, filter: "blur(5px)" }}
-              animate={{
-                opacity: [0, 1, 1, 1],
-                scale: [0.8, 1.08, 0.96, 1.015, 1],
-                y: [-220, 28, -14, 6, 0],
-                rotate: [-3, 1.8, -1.1, 0.4, 0],
-                filter: ["blur(5px)", "blur(2px)", "blur(0.5px)", "blur(0px)", "blur(0px)"],
-              }}
-              transition={{
-                duration: 1.2,
-                times: [0, 0.58, 0.76, 0.9, 1],
-                ease: [0.19, 1, 0.22, 1],
-              }}
+              initial={{ opacity: 0, scale: 0.86, y: -180, rotate: -2 }}
+              animate={{ opacity: 1, scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
+              transition={{ duration: 0.95, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
         ) : (
