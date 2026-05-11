@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const GIA_LOGO_SRC = "/mnt/data/ChatGPT Image 4 may 2026, 02_58_01 p.m.(1).png";
+const GIA_LOGO_SRC = "/ChatGPT Image 4 may 2026, 02_58_01 p.m.(1).png";
 
 const BRAND = {
   purple: "#7300E1",
