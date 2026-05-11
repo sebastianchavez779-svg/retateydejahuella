@@ -505,7 +505,7 @@ function FlowVisual() {
 function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
-  if (slide.visualType === "adoption") return <AdoptionSlide slide={slide} />;
+  if (slide.visualType === "adoption") return <AdoptionVisual slide={slide} />;
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
