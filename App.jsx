@@ -363,7 +363,7 @@ function SlideContent({ slide }) {
             <img
               src={GIA_LOGO_SRC}
               alt="Logo GIA"
-              className="mx-auto w-[46%] min-w-[420px] max-w-[680px] object-contain"
+              className="mx-auto w-[55%] min-w-[520px] max-w-[820px] object-contain"
             />
           </div>
         ) : (
