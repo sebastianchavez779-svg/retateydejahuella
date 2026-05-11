@@ -352,7 +352,7 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
-function SlideContent({ slide, heroAnimationReady }) {
+function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   return (
@@ -360,22 +360,14 @@ function SlideContent({ slide, heroAnimationReady }) {
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
         {slide.visualType === "hero" ? (
           <div className="w-full pt-[3%]">
-            {heroAnimationReady ? (
-              <motion.img
-                src={GIA_LOGO_SRC}
-                alt="Logo GIA"
-                className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
-                initial={{ scale: 0.86, y: -180, rotate: -2 }}
-                animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
-                transition={{ duration: 0.95, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
-              />
-            ) : (
-              <img
-                src={GIA_LOGO_SRC}
-                alt="Logo GIA"
-                className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain opacity-0"
-              />
-            )}
+            <motion.img
+              src={GIA_LOGO_SRC}
+              alt="Logo GIA"
+              className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+              initial={{ scale: 0.86, y: -180, rotate: -2 }}
+              animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
+              transition={{ duration: 0.95, delay: 0.15, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
+            />
           </div>
         ) : (
           <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
@@ -389,60 +381,18 @@ function SlideContent({ slide, heroAnimationReady }) {
 
 export default function Presentation() {
   const { current, next, prev, goTo } = usePresentation(slides.length);
-  const [appReady, setAppReady] = useState(false);
-  const [heroAnimationReady, setHeroAnimationReady] = useState(false);
   const slide = slides[current];
   useEffect(() => validateSlides(), []);
-
-  useEffect(() => {
-    const logoImage = new Image();
-    logoImage.src = GIA_LOGO_SRC;
-
-    let finished = false;
-    const done = () => {
-      if (finished) return;
-      finished = true;
-      setAppReady(true);
-      requestAnimationFrame(() => setHeroAnimationReady(true));
-    };
-
-    logoImage.onload = done;
-    logoImage.onerror = done;
-
-    const fallbackTimer = window.setTimeout(done, 2200);
-
-    if (logoImage.complete) done();
-
-    return () => {
-      finished = true;
-      window.clearTimeout(fallbackTimer);
-    };
-  }, []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
-    slide.visualType === "adoption"
-      ? "pt-[5.2%] pb-[96px]"
-      : slide.visualType === "reprocess"
+    slide.visualType === "reprocess"
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
         : "pt-[8%] pb-[96px]";
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
-      {!appReady && (
-        <div className="absolute inset-0 z-40 flex items-center justify-center bg-[#eef0f4]">
-          <div className="h-2 w-28 overflow-hidden rounded-full bg-white/75">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.8), rgba(74,191,255,0.8))" }}
-              initial={{ x: "-100%" }}
-              animate={{ x: ["-100%", "100%"] }}
-              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
-        </div>
-      )}
+    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
       <main
         className="relative aspect-video w-full max-w-[1520px] max-h-[92vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
         style={{ aspectRatio: "16 / 9" }}
@@ -477,7 +427,7 @@ export default function Presentation() {
                 : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`
             }
           >
-            <SlideContent slide={slide} heroAnimationReady={heroAnimationReady} />
+            <SlideContent slide={slide} />
           </motion.section>
         </AnimatePresence>
 
