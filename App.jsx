@@ -1,55 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const GIA_LOGO_SRC = "/ChatGPT Image 4 may 2026, 02_58_01 p.m..png";
-
-const BRAND = {
-  purple: "#7300E1",
-  yellow: "#FFC740",
-  yellowText: "#B98100",
-  blue: "#4ABFFF",
-  dark: "#1A1A1A",
-  body: "#4A4A4A",
-  muted: "#5A5A5A",
-  dangerText: "#E5484D",
-};
-
-const slides = [
-  { title: "GIA", subtitle: "Inteligencia aplicada a decisiones contables", footer: "Piloto IA – Contabilidad 2025", visualType: "hero" },
-  { title: "Adopción de IA en contabilidad", subtitle: "Solo el 4% de las empresas en Perú utiliza inteligencia artificial en el área contable (EY 2025).", footer: "Solo el 4% de las empresas en Perú utiliza inteligencia artificial en el área contable (EY 2025).", visualType: "adoption" },
-  { title: "¿Cuánto dinero estuvo en riesgo en el 2025 por errores en las órdenes de compra?", subtitle: "", footer: "", visualType: "question" },
-  { title: "El error nace mucho antes del pago", subtitle: "", footer: "El riesgo nace en errores de órdenes de compra y se acumula en reprocesos posteriores.", visualType: "reprocess" },
-  { title: "Presentamos GIA", subtitle: "", footer: "", visualType: "giaIntro" },
-  { title: "GIA interviene desde la selección del material", subtitle: "", footer: " ", visualType: "giaPoint" },
-  { title: "El cerebro detrás de GIA", subtitle: "", footer: "", visualType: "backend" },
-  { title: "El error ocurre aquí", subtitle: "Usuario genera OC → selecciona material → sistema asocia detracción → factura se registra → tesorería paga", footer: "El sistema no falla. Ejecuta lo que el usuario decide.", visualType: "flow" },
-  { title: "El problema no es el proceso", subtitle: "El flujo existe. Las reglas existen. El sistema funciona.", footer: "El problema es la falta de validación en el punto de decisión." },
-  { title: "Corregir después siempre es más costoso", subtitle: "Si el error nace en la imputación, todo el proceso posterior hereda ese error.", footer: "Prevenir antes es más eficiente que corregir después." },
-  { title: "El control debe ocurrir antes", subtitle: "El único punto eficiente de intervención es antes de confirmar la imputación.", footer: "Ahí es donde debe existir guía." },
-  { title: "Ahí aparece GIA", subtitle: "GIA es un agente conversacional de IA entrenado con reglas contables internas.", footer: "Interviene antes de que el error ocurra." },
-  { title: "Cómo funciona en la práctica", subtitle: "El usuario consulta y GIA responde con criterios, códigos y validaciones.", footer: "Convierte una duda operativa en una decisión correcta." },
-  { title: "El control pasa de correctivo a preventivo", subtitle: "Menos errores en origen, menos reprocesos y menor exposición fiscal.", footer: "GIA reduce el costo operativo y fiscal." },
-  { title: "Hoy el control ocurre después del error", subtitle: "Los equipos corrigen cuando el impacto ya ocurrió.", footer: "GIA permite que el control ocurra antes." },
-];
-
-const styles = {
-  title: "text-5xl font-bold leading-tight tracking-[-0.03em]",
-  backendTitle: "text-5xl font-bold leading-tight tracking-[-0.04em]",
-  reprocessTitle: "max-w-[820px] text-4xl font-bold leading-[1.08] tracking-[-0.03em]",
-  body: "max-w-[700px] text-base leading-7",
-  footer: "max-w-[720px] text-base font-semibold leading-7",
-  label: "text-xs font-semibold uppercase tracking-[0.14em]",
-};
-
-function runTests() {
-  console.assert(slides.length === 15, "Deben ser 15 slides");
-  console.assert(slides[1].visualType === "adoption", "Slide 2 debe usar visual adoption");
-  console.assert(slides[2].visualType === "question", "Slide 3 debe mantenerse como pregunta");
-  console.assert(slides[3].visualType === "reprocess", "Slide 4 debe usar visual de reproceso");
-  console.assert(slides[4].visualType === "giaIntro", "Slide 5 debe presentar GIA como escena completa");
-  console.assert(slides[5].visualType === "giaPoint", "Slide 6 debe mostrar punto de intervención");
-  console.assert(slides[6].visualType === "backend", "Slide 7 debe explicar backend de GIA");
-}
+import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
+import { usePresentation } from "./usePresentation";
 
 function AdoptionVisual() {
   const circumference = 2 * Math.PI * 82;
@@ -400,34 +352,144 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
-function SlideContent({ slide, current }) {
+function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
-        {slide.visualType === "hero" ? <div className="relative w-fit rounded-[2rem] border border-white/45 bg-white/40 p-8 shadow-[0_24px_70px_rgba(20,20,40,0.12)] backdrop-blur-2xl"><img src={GIA_LOGO_SRC} alt="Logo GIA" className="w-[300px] object-contain" /></div> : <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>}
-        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "hero" ? (
+          <div className="w-full pt-[3%]">
+            <motion.img
+              src={GIA_LOGO_SRC}
+              alt="Logo GIA"
+              className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+              initial={{ opacity: 0, scale: 0.8, y: -220, rotate: -3, filter: "blur(5px)" }}
+              animate={{
+                opacity: [0, 1, 1, 1],
+                scale: [0.8, 1.04, 0.985, 1],
+                y: [-220, 14, -6, 0],
+                rotate: [-3, 1.2, -0.6, 0],
+                filter: ["blur(5px)", "blur(1.5px)", "blur(0px)", "blur(0px)"],
+              }}
+              transition={{
+                duration: 1.05,
+                times: [0, 0.62, 0.84, 1],
+                ease: [0.19, 1, 0.22, 1],
+              }}
+            />
+          </div>
+        ) : (
+          <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+        )}
+        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
-      {slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
   );
 }
 
 export default function Presentation() {
-  const [current, setCurrent] = useState(0);
+  const { current, next, prev, goTo } = usePresentation(slides.length);
   const slide = slides[current];
-  useEffect(() => runTests(), []);
-  const next = () => setCurrent((value) => (value + 1) % slides.length);
-  const prev = () => setCurrent((value) => (value - 1 + slides.length) % slides.length);
+  useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
+  const scenePaddingClass =
+    slide.visualType === "reprocess"
+      ? "pt-[6%] pb-[76px]"
+      : slide.visualType === "backend"
+        ? "pt-[7%] pb-[90px]"
+        : "pt-[8%] pb-[96px]";
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-6">
-      <main className="relative aspect-video w-full max-w-[960px] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]">
-        {!isFullScene && <><div className="pointer-events-none absolute -left-32 -top-32 h-[300px] w-[300px] blur-[90px]" style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), transparent)" }} /><div className="pointer-events-none absolute -bottom-32 -right-32 h-[300px] w-[300px] blur-[90px]" style={{ background: "radial-gradient(circle, rgba(74,191,255,0.35), transparent)" }} /><div className="pointer-events-none absolute -right-20 top-1/3 h-[200px] w-[200px] blur-[80px]" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.4), transparent)" }} /></>}
-        <AnimatePresence mode="wait"><motion.section key={current} initial={{ opacity: 0, y: isFullScene ? 0 : 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: isFullScene ? 0 : -18 }} transition={{ duration: 0.42, ease: "easeOut" }} className={isFullScene ? "absolute inset-0 z-10" : `relative z-10 flex h-full flex-col px-[8%] ${slide.visualType === "reprocess" ? "pt-[6%] pb-[76px]" : slide.visualType === "backend" ? "pt-[7%] pb-[90px]" : "pt-[8%] pb-[96px]"} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`}><SlideContent slide={slide} current={current} /></motion.section></AnimatePresence>
-        <div className="pointer-events-none absolute left-0 right-0 top-1/2 z-30 flex -translate-y-1/2 items-center justify-between px-[3.5%]"><button type="button" onClick={prev} aria-label="Slide anterior" className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:-translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"><span className="text-base leading-none" style={{ color: BRAND.dark }}>‹</span></button><button type="button" onClick={next} aria-label="Siguiente slide" className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"><span className="text-base leading-none" style={{ color: BRAND.dark }}>›</span></button></div>
-        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/55 bg-white/55 px-4 py-2 shadow-[0_12px_30px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.8)" }}>{String(current + 1).padStart(2, "0")}</span><div className="flex items-center gap-2">{slides.map((_, index) => <button key={index} type="button" onClick={() => setCurrent(index)} aria-label={`Ir al slide ${index + 1}`} className="h-1.5 rounded-full transition-all duration-300" style={{ width: index === current ? 28 : 8, background: index === current ? "linear-gradient(90deg, rgba(115,0,225,0.80), rgba(74,191,255,0.80))" : "rgba(191,191,191,0.60)" }} />)}</div><span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.5)" }}>{String(slides.length).padStart(2, "0")}</span></div>
+    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
+      <main
+        className="relative aspect-video w-full max-w-[1520px] max-h-[92vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
+        style={{ aspectRatio: "16 / 9" }}
+      >
+        {!isFullScene && (
+          <>
+            <div
+              className="pointer-events-none absolute -left-32 -top-32 h-[300px] w-[300px] blur-[90px]"
+              style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), transparent)" }}
+            />
+            <div
+              className="pointer-events-none absolute -bottom-32 -right-32 h-[300px] w-[300px] blur-[90px]"
+              style={{ background: "radial-gradient(circle, rgba(74,191,255,0.35), transparent)" }}
+            />
+            <div
+              className="pointer-events-none absolute -right-20 top-1/3 h-[200px] w-[200px] blur-[80px]"
+              style={{ background: "radial-gradient(circle, rgba(255,199,64,0.4), transparent)" }}
+            />
+          </>
+        )}
+
+        <AnimatePresence mode="wait">
+          <motion.section
+            key={current}
+            initial={{ opacity: 0, y: isFullScene ? 0 : 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: isFullScene ? 0 : -18 }}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            className={
+              isFullScene
+                ? "absolute inset-0 z-10"
+                : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`
+            }
+          >
+            <SlideContent slide={slide} />
+          </motion.section>
+        </AnimatePresence>
+
+        <div className="pointer-events-none absolute left-0 right-0 top-1/2 z-30 flex -translate-y-1/2 items-center justify-between px-[3.5%]">
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Slide anterior"
+            className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:-translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"
+          >
+            <span className="text-base leading-none" style={{ color: BRAND.dark }}>
+              ‹
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Siguiente slide"
+            className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"
+          >
+            <span className="text-base leading-none" style={{ color: BRAND.dark }}>
+              ›
+            </span>
+          </button>
+        </div>
+
+        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/55 bg-white/55 px-4 py-2 shadow-[0_12px_30px_rgba(20,20,40,0.10)] backdrop-blur-2xl">
+          <span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.8)" }}>
+            {String(current + 1).padStart(2, "0")}
+          </span>
+          <div className="flex items-center gap-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-label={`Ir al slide ${index + 1}`}
+                className="h-1.5 rounded-full transition-all duration-300"
+                style={{
+                  width: index === current ? 28 : 8,
+                  background:
+                    index === current
+                      ? "linear-gradient(90deg, rgba(115,0,225,0.80), rgba(74,191,255,0.80))"
+                      : "rgba(191,191,191,0.60)",
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.5)" }}>
+            {String(slides.length).padStart(2, "0")}
+          </span>
+        </div>
       </main>
     </div>
   );
