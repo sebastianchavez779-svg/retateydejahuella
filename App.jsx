@@ -19,9 +19,9 @@ function AdoptionVisual() {
             </linearGradient>
           </defs>
         </svg>
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
-          <span className="text-[68px] font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
-          <span className="mt-1 text-[13px] font-semibold uppercase tracking-[0.2em]" style={{ color: BRAND.muted }}>usa IA</span>
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
+          <span className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
         </motion.div>
       </motion.div>
 
@@ -352,22 +352,6 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
-function AdoptionSlide({ slide }) {
-  return (
-    <div className="flex h-full flex-col">
-      <header className="pt-2">
-        <h1 className={styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
-      </header>
-      <section className="flex flex-1 items-center justify-center">
-        <AdoptionVisual />
-      </section>
-      <footer className="pb-2">
-        {slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
-      </footer>
-    </div>
-  );
-}
-
 function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
@@ -389,7 +373,7 @@ function SlideContent({ slide }) {
         ) : (
           <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
-        {slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
       {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
@@ -402,9 +386,7 @@ export default function Presentation() {
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
-    slide.visualType === "adoption"
-      ? "pt-[2.8%] pb-[82px]"
-      : slide.visualType === "reprocess"
+    slide.visualType === "reprocess"
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
