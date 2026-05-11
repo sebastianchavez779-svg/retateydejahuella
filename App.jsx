@@ -363,7 +363,7 @@ function SlideContent({ slide }) {
             <img
               src={GIA_LOGO_SRC}
               alt="Logo GIA"
-              className="mx-auto w-[30%] min-w-[260px] max-w-[420px] object-contain"
+              className="mx-auto w-[46%] min-w-[420px] max-w-[680px] object-contain"
             />
           </div>
         ) : (
@@ -389,9 +389,9 @@ export default function Presentation() {
         : "pt-[8%] pb-[96px]";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-6">
+    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
       <main
-        className="relative aspect-video w-full max-w-[1280px] max-h-[84vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
+        className="relative aspect-video w-full max-w-[1520px] max-h-[92vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
         style={{ aspectRatio: "16 / 9" }}
       >
         {!isFullScene && (
