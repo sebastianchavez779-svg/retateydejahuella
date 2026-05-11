@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
 import { usePresentation } from "./usePresentation";
