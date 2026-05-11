@@ -4,36 +4,187 @@ import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentat
 import { usePresentation } from "./usePresentation";
 
 function AdoptionVisual() {
+  const radius = 82;
+  const circumference = 2 * Math.PI * radius;
+
   return (
     <div className="mt-1 grid w-full max-w-[980px] grid-cols-2 items-center gap-8">
-      <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-center">
-        <div className="absolute h-[250px] w-[250px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
-        <svg width="225" height="225" viewBox="0 0 230 230" className="relative -rotate-90 scale-[1.03]">
-          <circle cx="115" cy="115" r="82" stroke="rgba(191,191,191,0.16)" strokeWidth="22" fill="none" />
-          <motion.circle cx="115" cy="115" r="82" stroke="url(#adoptionGrad)" strokeWidth="22" strokeLinecap="round" strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }} animate={{ strokeDashoffset: circumference * 0.96 }} transition={{ duration: 1.15, ease: "easeOut", delay: 0.15 }} fill="none" />
+      
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative flex items-center justify-center"
+      >
+        <div
+          className="absolute h-[250px] w-[250px] rounded-full blur-2xl"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)",
+          }}
+        />
+
+        <svg
+          width="225"
+          height="225"
+          viewBox="0 0 230 230"
+          className="relative -rotate-90 scale-[1.03]"
+        >
+          <circle
+            cx="115"
+            cy="115"
+            r={radius}
+            stroke="rgba(191,191,191,0.16)"
+            strokeWidth="22"
+            fill="none"
+          />
+
+          <motion.circle
+            cx="115"
+            cy="115"
+            r={radius}
+            stroke="url(#adoptionGrad)"
+            strokeWidth="22"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            animate={{ strokeDashoffset: circumference * 0.96 }}
+            transition={{
+              duration: 1.15,
+              ease: "easeOut",
+              delay: 0.15,
+            }}
+            fill="none"
+          />
+
           <defs>
             <linearGradient id="adoptionGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor={BRAND.purple} stopOpacity="0.9" />
-              <stop offset="100%" stopColor={BRAND.yellow} stopOpacity="0.95" />
+              <stop
+                offset="0%"
+                stopColor={BRAND.purple}
+                stopOpacity="0.9"
+              />
+              <stop
+                offset="100%"
+                stopColor={BRAND.yellow}
+                stopOpacity="0.95"
+              />
             </linearGradient>
           </defs>
         </svg>
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
-          <span className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.75 }}
+          className="absolute inset-0 flex flex-col items-center justify-center"
+        >
+          <span
+            className="text-6xl font-bold leading-none"
+            style={{ color: BRAND.yellowText }}
+          >
+            4%
+          </span>
+
+          <span
+            className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]"
+            style={{ color: BRAND.muted }}
+          >
+            usa IA
+          </span>
         </motion.div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="justify-self-center w-full max-w-[560px] rounded-[1.4rem] border border-white/45 bg-white/35 px-7 py-6 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
+      <motion.div
+        initial={{ opacity: 0, x: 22 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.42 }}
+        className="justify-self-center w-full max-w-[560px] rounded-[1.4rem] border border-white/45 bg-white/35 px-7 py-6 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl"
+      >
         <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
+          
+          <div
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30"
+            style={{ borderColor: "rgba(115,0,225,0.15)" }}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M6 18V9"
+                stroke={BRAND.purple}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+
+              <path
+                d="M12 18V5"
+                stroke={BRAND.purple}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+
+              <path
+                d="M18 18v-7"
+                stroke={BRAND.purple}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+
+              <path
+                d="M4 18h16"
+                stroke={BRAND.purple}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
+
           <div className="space-y-3.5">
-            <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
-            <p className="text-[19px] leading-[1.62]" style={{ color: BRAND.body }}>Procesos manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas que no generan valor directo.</p>
-            <div className="mt-1 h-2 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
-              <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.9, delay: 0.75 }} className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
+            <p
+              className={styles.label}
+              style={{ color: "rgba(115,0,225,0.75)" }}
+            >
+              El resultado
+            </p>
+
+            <p
+              className="text-[19px] leading-[1.62]"
+              style={{ color: BRAND.body }}
+            >
+              Procesos manuales, lentitud operativa y equipos contables
+              consumiendo hasta{" "}
+              <span
+                className="font-bold"
+                style={{ color: BRAND.yellowText }}
+              >
+                120 horas al mes
+              </span>{" "}
+              en tareas que no generan valor directo.
+            </p>
+
+            <div
+              className="mt-1 h-2 overflow-hidden rounded-full"
+              style={{
+                backgroundColor: "rgba(191,191,191,0.25)",
+              }}
+            >
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "82%" }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.75,
+                }}
+                className="h-full rounded-full"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))",
+                }}
+              />
             </div>
           </div>
         </div>
