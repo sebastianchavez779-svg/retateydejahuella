@@ -352,7 +352,7 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
-function SlideContent({ slide }) {
+function SlideContent({ slide, heroAnimationReady }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   return (
@@ -360,14 +360,22 @@ function SlideContent({ slide }) {
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
         {slide.visualType === "hero" ? (
           <div className="w-full pt-[3%]">
-            <motion.img
-              src={GIA_LOGO_SRC}
-              alt="Logo GIA"
-              className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
-              initial={{ scale: 0.86, y: -180, rotate: -2 }}
-              animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
-              transition={{ duration: 0.95, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
-            />
+            {heroAnimationReady ? (
+              <motion.img
+                src={GIA_LOGO_SRC}
+                alt="Logo GIA"
+                className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+                initial={{ scale: 0.86, y: -180, rotate: -2 }}
+                animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
+                transition={{ duration: 0.95, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
+              />
+            ) : (
+              <img
+                src={GIA_LOGO_SRC}
+                alt="Logo GIA"
+                className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+              />
+            )}
           </div>
         ) : (
           <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
@@ -381,8 +389,20 @@ function SlideContent({ slide }) {
 
 export default function Presentation() {
   const { current, next, prev, goTo } = usePresentation(slides.length);
+  const [heroAnimationReady, setHeroAnimationReady] = useState(false);
   const slide = slides[current];
   useEffect(() => validateSlides(), []);
+
+  useEffect(() => {
+    if (document.readyState === "complete") {
+      setHeroAnimationReady(true);
+      return;
+    }
+
+    const onLoad = () => setHeroAnimationReady(true);
+    window.addEventListener("load", onLoad, { once: true });
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
     slide.visualType === "reprocess"
@@ -427,7 +447,7 @@ export default function Presentation() {
                 : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`
             }
           >
-            <SlideContent slide={slide} />
+            <SlideContent slide={slide} heroAnimationReady={heroAnimationReady} />
           </motion.section>
         </AnimatePresence>
 
