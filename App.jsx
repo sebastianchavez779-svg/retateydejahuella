@@ -358,10 +358,20 @@ function SlideContent({ slide }) {
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
-        {slide.visualType === "hero" ? <div className="relative w-fit rounded-[2rem] border border-white/45 bg-white/40 p-8 shadow-[0_24px_70px_rgba(20,20,40,0.12)] backdrop-blur-2xl"><img src={GIA_LOGO_SRC} alt="Logo GIA" className="w-[300px] object-contain" /></div> : <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>}
-        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "hero" ? (
+          <div className="w-full pt-[3%]">
+            <img
+              src={GIA_LOGO_SRC}
+              alt="Logo GIA"
+              className="mx-auto w-[30%] min-w-[260px] max-w-[420px] object-contain"
+            />
+          </div>
+        ) : (
+          <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+        )}
+        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
-      {slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
   );
 }
