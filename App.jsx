@@ -367,14 +367,14 @@ function SlideContent({ slide }) {
               initial={{ opacity: 0, scale: 0.8, y: -220, rotate: -3, filter: "blur(5px)" }}
               animate={{
                 opacity: [0, 1, 1, 1],
-                scale: [0.8, 1.04, 0.985, 1],
-                y: [-220, 14, -6, 0],
-                rotate: [-3, 1.2, -0.6, 0],
-                filter: ["blur(5px)", "blur(1.5px)", "blur(0px)", "blur(0px)"],
+                scale: [0.8, 1.08, 0.96, 1.015, 1],
+                y: [-220, 28, -14, 6, 0],
+                rotate: [-3, 1.8, -1.1, 0.4, 0],
+                filter: ["blur(5px)", "blur(2px)", "blur(0.5px)", "blur(0px)", "blur(0px)"],
               }}
               transition={{
-                duration: 1.05,
-                times: [0, 0.62, 0.84, 1],
+                duration: 1.2,
+                times: [0, 0.58, 0.76, 0.9, 1],
                 ease: [0.19, 1, 0.22, 1],
               }}
             />
