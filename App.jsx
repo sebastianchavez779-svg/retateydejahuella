@@ -360,10 +360,13 @@ function SlideContent({ slide }) {
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
         {slide.visualType === "hero" ? (
           <div className="w-full pt-[3%]">
-            <img
+            <motion.img
               src={GIA_LOGO_SRC}
               alt="Logo GIA"
-              className="mx-auto w-[55%] min-w-[520px] max-w-[820px] object-contain"
+              className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+              initial={{ opacity: 0, scale: 0.82, y: 24, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
             />
           </div>
         ) : (
