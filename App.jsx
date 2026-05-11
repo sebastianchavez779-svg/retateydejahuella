@@ -6,7 +6,7 @@ import { usePresentation } from "./usePresentation";
 function AdoptionVisual() {
   const circumference = 2 * Math.PI * 82;
   return (
-    <div className="mt-4 grid w-full max-w-[920px] grid-cols-[0.82fr_1.18fr] items-center gap-10">
+    <div className="mt-2 grid w-full max-w-[1020px] grid-cols-[0.9fr_1.1fr] items-center gap-12">
       <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-center">
         <div className="absolute h-[250px] w-[250px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
         <svg width="225" height="225" viewBox="0 0 230 230" className="relative -rotate-90 scale-[1.03]">
@@ -25,14 +25,14 @@ function AdoptionVisual() {
         </motion.div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="w-full max-w-[480px] rounded-[1.4rem] border border-white/45 bg-white/35 p-6 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
+      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="justify-self-center w-full max-w-[560px] rounded-[1.4rem] border border-white/45 bg-white/35 p-7 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
         <div className="flex items-start gap-4">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
           </div>
-          <div className="space-y-3.5">
+          <div className="space-y-4">
             <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
-            <p className="text-lg leading-8" style={{ color: BRAND.body }}>Procesos manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas que no generan valor directo.</p>
+            <p className="text-xl leading-9" style={{ color: BRAND.body }}>Procesos manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas que no generan valor directo.</p>
             <div className="mt-1 h-2 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
               <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.9, delay: 0.75 }} className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
             </div>
@@ -385,7 +385,9 @@ export default function Presentation() {
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
-    slide.visualType === "reprocess"
+    slide.visualType === "adoption"
+      ? "pt-[6.5%] pb-[96px]"
+      : slide.visualType === "reprocess"
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
