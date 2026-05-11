@@ -4,7 +4,6 @@ import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentat
 import { usePresentation } from "./usePresentation";
 
 function AdoptionVisual() {
-  const circumference = 2 * Math.PI * 82;
   return (
     <div className="mt-1 grid w-full max-w-[980px] grid-cols-2 items-center gap-8">
       <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-center">
@@ -38,7 +37,7 @@ function AdoptionVisual() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
