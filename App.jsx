@@ -3,192 +3,40 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
 import { usePresentation } from "./usePresentation";
 
-function AdoptionVisual() {
-  const radius = 82;
-  const circumference = 2 * Math.PI * radius;
-
+function AdoptionVisual({ title, footer }) {
   return (
-    <div className="mt-1 grid w-full max-w-[980px] grid-cols-2 items-center gap-8">
-      
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative flex items-center justify-center"
-      >
-        <div
-          className="absolute h-[250px] w-[250px] rounded-full blur-2xl"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)",
-          }}
-        />
-
-        <svg
-          width="225"
-          height="225"
-          viewBox="0 0 230 230"
-          className="relative -rotate-90 scale-[1.03]"
-        >
-          <circle
-            cx="115"
-            cy="115"
-            r={radius}
-            stroke="rgba(191,191,191,0.16)"
-            strokeWidth="22"
-            fill="none"
-          />
-
-          <motion.circle
-            cx="115"
-            cy="115"
-            r={radius}
-            stroke="url(#adoptionGrad)"
-            strokeWidth="22"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            initial={{ strokeDashoffset: circumference }}
-            animate={{ strokeDashoffset: circumference * 0.96 }}
-            transition={{
-              duration: 1.15,
-              ease: "easeOut",
-              delay: 0.15,
-            }}
-            fill="none"
-          />
-
-          <defs>
-            <linearGradient id="adoptionGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop
-                offset="0%"
-                stopColor={BRAND.purple}
-                stopOpacity="0.9"
-              />
-              <stop
-                offset="100%"
-                stopColor={BRAND.yellow}
-                stopOpacity="0.95"
-              />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.75 }}
-          className="absolute inset-0 flex flex-col items-center justify-center"
-        >
-          <span
-            className="text-6xl font-bold leading-none"
-            style={{ color: BRAND.yellowText }}
-          >
-            4%
-          </span>
-
-          <span
-            className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]"
-            style={{ color: BRAND.muted }}
-          >
-            usa IA
-          </span>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, x: 22 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.42 }}
-        className="justify-self-center w-full max-w-[560px] rounded-[1.4rem] border border-white/45 bg-white/35 px-7 py-6 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl"
-      >
-        <div className="flex items-start gap-4">
-          
-          <div
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30"
-            style={{ borderColor: "rgba(115,0,225,0.15)" }}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6 18V9"
-                stroke={BRAND.purple}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-
-              <path
-                d="M12 18V5"
-                stroke={BRAND.purple}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-
-              <path
-                d="M18 18v-7"
-                stroke={BRAND.purple}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-
-              <path
-                d="M4 18h16"
-                stroke={BRAND.purple}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-
-          <div className="space-y-3.5">
-            <p
-              className={styles.label}
-              style={{ color: "rgba(115,0,225,0.75)" }}
-            >
-              El resultado
-            </p>
-
-            <p
-              className="text-[19px] leading-[1.62]"
-              style={{ color: BRAND.body }}
-            >
-              Procesos manuales, lentitud operativa y equipos contables
-              consumiendo hasta{" "}
-              <span
-                className="font-bold"
-                style={{ color: BRAND.yellowText }}
-              >
-                120 horas al mes
-              </span>{" "}
-              en tareas que no generan valor directo.
-            </p>
-
+    <div className="flex flex-col gap-5">
+      <h1 className={styles.title} style={{ color: BRAND.purple }}>{title}</h1>
+      <div className="mt-0 grid max-w-[840px] grid-cols-[0.88fr_1.12fr] items-center gap-7">
+        <div className="relative flex items-center justify-start">
+          <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
+          <div className="relative flex h-[225px] w-[225px] items-center justify-center">
             <div
-              className="mt-1 h-2 overflow-hidden rounded-full"
-              style={{
-                backgroundColor: "rgba(191,191,191,0.25)",
-              }}
-            >
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "82%" }}
-                transition={{
-                  duration: 0.9,
-                  delay: 0.75,
-                }}
-                className="h-full rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))",
-                }}
-              />
+              className="h-[190px] w-[190px] rounded-full"
+              style={{ background: "conic-gradient(from -90deg, rgba(115,0,225,0.88) 0 14.4deg, rgba(191,191,191,0.16) 14.4deg 360deg)" }}
+            />
+            <div className="absolute h-[146px] w-[146px] rounded-full bg-[#f7f7f9]" />
+            <span className="absolute text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
+            <span className="absolute mt-[78px] text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
+          </div>
+        </div>
+
+        <div className="w-full max-w-[390px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
+            </div>
+            <div className="space-y-3">
+              <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
+              <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
+              <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
+                <div className="h-full w-[82%] rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
+              </div>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
+      {footer && <p className={styles.footer} style={{ color: BRAND.body }}>{footer}</p>}
     </div>
   );
 }
@@ -505,7 +353,10 @@ function FlowVisual() {
 function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
-  if (slide.visualType === "adoption") return <AdoptionVisual slide={slide} />;
+  if (slide.visualType === "adoption") {
+    return <AdoptionVisual title={slide.title} footer={slide.footer} />;
+  }
+
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
@@ -523,7 +374,7 @@ function SlideContent({ slide }) {
         ) : (
           <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
-        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
       {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
@@ -540,7 +391,9 @@ export default function Presentation() {
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
-        : "pt-[8%] pb-[96px]";
+        : slide.visualType === "adoption"
+          ? "pt-[6%] pb-[76px]"
+          : "pt-[8%] pb-[96px]";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
@@ -575,7 +428,7 @@ export default function Presentation() {
             className={
               isFullScene
                 ? "absolute inset-0 z-10"
-                : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`
+                : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" || slide.visualType === "adoption" ? "justify-start" : "justify-between"}`
             }
           >
             <SlideContent slide={slide} />
