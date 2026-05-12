@@ -31,7 +31,6 @@ export const slides = Object.freeze([
 
 export const styles = Object.freeze({
   title: "text-5xl font-bold leading-tight tracking-[-0.03em]",
-  adoptionTitle: "max-w-[860px] text-[56px] font-bold leading-[1.05] tracking-[-0.03em]",
   backendTitle: "text-5xl font-bold leading-tight tracking-[-0.04em]",
   reprocessTitle: "max-w-[820px] text-4xl font-bold leading-[1.08] tracking-[-0.03em]",
   body: "max-w-[700px] text-base leading-7",
