@@ -9,4 +9,22 @@ export default {
     titleStyle: 'title',
     showFooter: true,
   },
+  ui: {
+    sectionPadding: 'pt-[6%] pb-[76px]',
+    sectionJustify: 'justify-start',
+    titleStyle: 'title',
+    bodyClass: 'body',
+    footerClass: 'footer',
+    showFooter: true,
+    adoption: {
+      wrapperGrid: 'mt-0 grid max-w-[1020px] grid-cols-[0.88fr_1.12fr] items-center gap-7',
+      donutOuter: 'h-[270px] w-[270px]',
+      donutRing: 'h-[230px] w-[230px] border-[30px]',
+      donutInner: 'h-[176px] w-[176px]',
+      cap: 'top-[22px] h-[28px] w-[34px]',
+      value: 'text-7xl',
+      labelOffset: 'mt-[94px]',
+      card: 'w-full max-w-[480px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5',
+    },
+  },
 };

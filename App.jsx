@@ -3,23 +3,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
 import { usePresentation } from "./usePresentation";
 
-function AdoptionVisual({ title, footer }) {
+function AdoptionVisual({ title, footer, ui }) {
   return (
     <div className="flex flex-col gap-7">
-      <h1 className={styles.title} style={{ color: BRAND.purple }}>{title}</h1>
-      <div className="mt-0 grid max-w-[1020px] grid-cols-[0.88fr_1.12fr] items-center gap-7">
+      <h1 className={styles[ui?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{title}</h1>
+      <div className={ui?.adoption?.wrapperGrid || "mt-0 grid max-w-[1020px] grid-cols-[0.88fr_1.12fr] items-center gap-7"}>
         <div className="relative flex items-center justify-start">
           <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
-          <div className="relative flex h-[270px] w-[270px] items-center justify-center">
-            <div className="h-[230px] w-[230px] rounded-full border-[30px]" style={{ borderColor: "rgba(191,191,191,0.16)" }} />
-            <motion.div className="absolute left-1/2 top-[22px] h-[28px] w-[34px] -translate-x-1/2 rounded-full" style={{ backgroundColor: BRAND.yellowText }} initial={{ opacity: 0, scale: 0.65, y: -6 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
-            <div className="absolute h-[176px] w-[176px] rounded-full bg-[#f7f7f9]" />
-            <span className="absolute text-7xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
-            <span className="absolute mt-[94px] text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
+          <div className={`relative flex ${ui?.adoption?.donutOuter || "h-[270px] w-[270px]"} items-center justify-center`}>
+            <div className={`${ui?.adoption?.donutRing || "h-[230px] w-[230px] border-[30px]"} rounded-full`} style={{ borderColor: "rgba(191,191,191,0.16)" }} />
+            <motion.div className={`absolute left-1/2 ${ui?.adoption?.cap || "top-[22px] h-[28px] w-[34px]"} -translate-x-1/2 rounded-full`} style={{ backgroundColor: BRAND.yellowText }} initial={{ opacity: 0, scale: 0.65, y: -6 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
+            <div className={`absolute ${ui?.adoption?.donutInner || "h-[176px] w-[176px]"} rounded-full bg-[#f7f7f9]`} />
+            <span className={`absolute ${ui?.adoption?.value || "text-7xl"} font-bold leading-none`} style={{ color: BRAND.yellowText }}>4%</span>
+            <span className={`absolute ${ui?.adoption?.labelOffset || "mt-[94px]"} text-xs font-semibold uppercase tracking-[0.16em]`} style={{ color: BRAND.muted }}>usa IA</span>
           </div>
         </div>
 
-        <div className="w-full max-w-[480px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
+        <div className={ui?.adoption?.card || "w-full max-w-[480px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl"}>
           <div className="flex items-start gap-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
@@ -34,7 +34,7 @@ function AdoptionVisual({ title, footer }) {
           </div>
         </div>
       </div>
-      {footer && <p className={styles.footer} style={{ color: BRAND.body }}>{footer}</p>}
+      {ui?.showFooter !== false && footer && <p className={styles[ui?.footerClass || "footer"] || styles.footer} style={{ color: BRAND.body }}>{footer}</p>}
     </div>
   );
 }
@@ -352,7 +352,7 @@ function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   if (slide.visualType === "adoption") {
-    return <AdoptionVisual title={slide.title} footer={slide.footer} />;
+    return <AdoptionVisual title={slide.title} footer={slide.footer} ui={slide.ui} />;
   }
 
   return (
@@ -370,11 +370,11 @@ function SlideContent({ slide }) {
             />
           </div>
         ) : (
-          <h1 className={styles[slide.layout?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+          <h1 className={styles[slide.ui?.titleStyle || slide.layout?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
-        {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles[slide.ui?.bodyClass || "body"] || styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
-      {slide.layout?.showFooter !== false && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      {(slide.ui?.showFooter ?? slide.layout?.showFooter) !== false && slide.footer && <p className={styles[slide.ui?.footerClass || "footer"] || styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
   );
 }
@@ -384,8 +384,8 @@ export default function Presentation() {
   const slide = slides[current];
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
-  const scenePaddingClass = slide.layout?.padding ?? "pt-[6%] pb-[76px]";
-  const sceneJustifyClass = slide.layout?.justify ?? "justify-start";
+  const scenePaddingClass = slide.ui?.sectionPadding ?? slide.layout?.padding ?? "pt-[6%] pb-[76px]";
+  const sceneJustifyClass = slide.ui?.sectionJustify ?? slide.layout?.justify ?? "justify-start";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-1">

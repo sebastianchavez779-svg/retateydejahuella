@@ -9,4 +9,12 @@ export default {
     titleStyle: 'title',
     showFooter: false,
   },
+  ui: {
+    sectionPadding: '',
+    sectionJustify: '',
+    titleStyle: 'title',
+    bodyClass: 'body',
+    footerClass: 'footer',
+    showFooter: false,
+  },
 };

@@ -9,4 +9,13 @@ export default {
     titleStyle: 'title',
     showFooter: false,
   },
+  ui: {
+    sectionPadding: 'pt-[8%] pb-[96px]',
+    sectionJustify: 'justify-start',
+    titleStyle: 'title',
+    bodyClass: 'body',
+    footerClass: 'footer',
+    showFooter: false,
+    heroLogoClass: 'w-[50%] min-w-[460px] max-w-[760px]',
+  },
 };

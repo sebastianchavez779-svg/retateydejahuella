@@ -9,4 +9,12 @@ export default {
     titleStyle: 'title',
     showFooter: false,
   },
+  ui: {
+    sectionPadding: 'pt-[8%] pb-[96px]',
+    sectionJustify: 'justify-start',
+    titleStyle: 'title',
+    bodyClass: 'body',
+    footerClass: 'footer',
+    showFooter: false,
+  },
 };

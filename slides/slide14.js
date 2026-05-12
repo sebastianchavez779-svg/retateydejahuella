@@ -8,4 +8,12 @@ export default {
     titleStyle: 'title',
     showFooter: true,
   },
+  ui: {
+    sectionPadding: 'pt-[6%] pb-[76px]',
+    sectionJustify: 'justify-start',
+    titleStyle: 'title',
+    bodyClass: 'body',
+    footerClass: 'footer',
+    showFooter: true,
+  },
 };
