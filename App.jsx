@@ -37,7 +37,7 @@ function AdoptionVisual({ title, footer }) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       {footer && <p className={styles.footer} style={{ color: BRAND.body }}>{footer}</p>}
     </div>
   );
