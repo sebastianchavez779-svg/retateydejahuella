@@ -1,0 +1,1 @@
+export default { title: "El problema no es el proceso", subtitle: "El flujo existe. Las reglas existen. El sistema funciona.", footer: "El problema es la falta de validación en el punto de decisión." };

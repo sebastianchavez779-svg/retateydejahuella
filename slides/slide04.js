@@ -1,0 +1,1 @@
+export default { title: "El error nace mucho antes del pago", subtitle: "", footer: "El riesgo nace en errores de órdenes de compra y se acumula en reprocesos posteriores.", visualType: "reprocess" };

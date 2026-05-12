@@ -1,0 +1,1 @@
+export default { title: "El control pasa de correctivo a preventivo", subtitle: "Menos errores en origen, menos reprocesos y menor exposición fiscal.", footer: "GIA reduce el costo operativo y fiscal." };
