@@ -42,8 +42,8 @@ function AdoptionVisual({ title, footer }) {
 function QuestionSlide() {
   const lines = ["¿Cuánto dinero", "estuvo en riesgo", "en el 2025", "por errores en las", "órdenes de compra?"];
   return (
-    <div className="flex h-full items-start justify-start">
-      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="text-[74px] font-bold leading-[0.95] tracking-[-0.055em]" style={{ color: BRAND.purple }}>
+    <div className="flex h-full items-start justify-start pt-2">
+      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="max-w-[1280px] text-[102px] font-bold leading-[0.9] tracking-[-0.07em]" style={{ color: BRAND.purple }}>
         {lines.map((line, index) => (
           <motion.span key={line} initial={{ opacity: 0, y: -30, filter: "blur(7px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.5, delay: index * 0.13, ease: [0.16, 1, 0.3, 1] }} className="block">{line}</motion.span>
         ))}
@@ -59,22 +59,22 @@ function ReprocessVisual() {
     { value: "5 personas", label: "Equipo involucrado en reproceso", color: BRAND.blue },
   ];
   return (
-    <div className="mt-0 grid max-w-[940px] grid-cols-[1.2fr_0.8fr] gap-6">
-      <div className="relative overflow-hidden rounded-[1.75rem] border border-white/30 bg-white/20 p-6 backdrop-blur-xl">
-        <div className="relative mx-auto flex max-w-[460px] scale-[0.98] flex-col items-center">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="w-[300px] rounded-xl border border-white/40 bg-white/35 px-4 py-3 text-center">
-            <p className="text-base font-semibold" style={{ color: BRAND.dark }}>Emisión de OC</p><p className="text-sm" style={{ color: BRAND.muted }}>Selección de material incorrecto</p>
+    <div className="mt-2 grid w-full max-w-[1200px] grid-cols-[1.28fr_0.72fr] gap-9">
+      <div className="relative overflow-hidden rounded-[1.9rem] border border-white/30 bg-white/20 p-8 backdrop-blur-xl">
+        <div className="relative mx-auto flex max-w-[560px] scale-[1.02] flex-col items-center">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="w-[360px] rounded-xl border border-white/40 bg-white/35 px-5 py-4 text-center">
+            <p className="text-[30px] font-semibold" style={{ color: BRAND.dark }}>Emisión de OC</p><p className="text-lg" style={{ color: BRAND.muted }}>Selección de material incorrecto</p>
           </motion.div>
-          <motion.div initial={{ height: 0 }} animate={{ height: 24 }} transition={{ duration: 0.3, delay: 0.25 }} className="w-[2px]" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} />
-          <div className="relative h-[40px] w-[360px]"><motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 0.4, delay: 0.55 }} className="absolute top-0 h-[2px] w-full" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} /><motion.div initial={{ height: 0 }} animate={{ height: 40 }} transition={{ duration: 0.3, delay: 0.85 }} className="absolute left-0 top-0 w-[2px]" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} /><motion.div initial={{ height: 0 }} animate={{ height: 40 }} transition={{ duration: 0.3, delay: 0.85 }} className="absolute right-0 top-0 w-[2px]" style={{ backgroundColor: "rgba(255,77,79,0.70)" }} /></div>
-          <div className="flex w-[420px] justify-between">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 1.1 }} className="w-[200px] rounded-xl border border-white/30 bg-white/15 px-3 py-3 text-center"><p className="text-xs font-semibold" style={{ color: BRAND.muted }}>Pago fraccionado</p><p className="text-sm" style={{ color: "rgba(90,90,90,0.8)" }}>Proveedor + Banco</p></motion.div>
-            <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: [1, 1.05, 1] }} transition={{ opacity: { duration: 0.35, delay: 1.1 }, y: { duration: 0.35, delay: 1.1 }, scale: { duration: 0.5, repeat: 2, repeatDelay: 0.18, delay: 1.1 } }} className="w-[220px] rounded-xl px-3 py-3 text-center" style={{ border: "1px solid rgba(255,77,79,0.70)", backgroundColor: "rgba(255,77,79,0.12)" }}><p className="text-xs font-bold" style={{ color: BRAND.dangerText }}>Factura sin detracción</p><p className="text-xs" style={{ color: "rgba(229,72,77,0.80)" }}>registrada</p></motion.div>
+          <motion.div initial={{ height: 0 }} animate={{ height: 30 }} transition={{ duration: 0.3, delay: 0.25 }} className="w-[2px]" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} />
+          <div className="relative h-[50px] w-[460px]"><motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 0.4, delay: 0.55 }} className="absolute top-0 h-[2px] w-full" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} /><motion.div initial={{ height: 0 }} animate={{ height: 50 }} transition={{ duration: 0.3, delay: 0.85 }} className="absolute left-0 top-0 w-[2px]" style={{ backgroundColor: "rgba(74,74,74,0.25)" }} /><motion.div initial={{ height: 0 }} animate={{ height: 50 }} transition={{ duration: 0.3, delay: 0.85 }} className="absolute right-0 top-0 w-[2px]" style={{ backgroundColor: "rgba(255,77,79,0.70)" }} /></div>
+          <div className="flex w-[540px] justify-between">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 1.1 }} className="w-[250px] rounded-xl border border-white/30 bg-white/15 px-4 py-4 text-center"><p className="text-base font-semibold" style={{ color: BRAND.muted }}>Pago fraccionado</p><p className="text-base" style={{ color: "rgba(90,90,90,0.8)" }}>Proveedor + Banco</p></motion.div>
+            <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: [1, 1.05, 1] }} transition={{ opacity: { duration: 0.35, delay: 1.1 }, y: { duration: 0.35, delay: 1.1 }, scale: { duration: 0.5, repeat: 2, repeatDelay: 0.18, delay: 1.1 } }} className="w-[270px] rounded-xl px-4 py-4 text-center" style={{ border: "1px solid rgba(255,77,79,0.70)", backgroundColor: "rgba(255,77,79,0.12)" }}><p className="text-base font-bold" style={{ color: BRAND.dangerText }}>Factura sin detracción</p><p className="text-sm" style={{ color: "rgba(229,72,77,0.80)" }}>registrada</p></motion.div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center gap-4">
-        {kpis.map((item, index) => (<motion.div key={item.label} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, scale: [1, 1.04, 1] }} transition={{ opacity: { duration: 0.35, delay: 1.2 + index * 0.12 }, x: { duration: 0.35, delay: 1.2 + index * 0.12 }, scale: { duration: 0.6, repeat: 2, repeatDelay: 0.2, delay: 1.4 + index * 0.15 } }} className="rounded-full border border-white/40 bg-white/25 px-7 py-4 backdrop-blur-2xl"><p className="text-3xl font-extrabold leading-none" style={{ color: item.color }}>{item.value}</p><p className="mt-1 text-sm" style={{ color: BRAND.muted }}>{item.label}</p></motion.div>))}
+      <div className="flex flex-col justify-center gap-5">
+        {kpis.map((item, index) => (<motion.div key={item.label} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, scale: [1, 1.04, 1] }} transition={{ opacity: { duration: 0.35, delay: 1.2 + index * 0.12 }, x: { duration: 0.35, delay: 1.2 + index * 0.12 }, scale: { duration: 0.6, repeat: 2, repeatDelay: 0.2, delay: 1.4 + index * 0.15 } }} className="rounded-full border border-white/40 bg-white/25 px-8 py-5 backdrop-blur-2xl"><p className="text-[52px] font-extrabold leading-none" style={{ color: item.color }}>{item.value}</p><p className="mt-2 text-base" style={{ color: BRAND.muted }}>{item.label}</p></motion.div>))}
       </div>
     </div>
   );
