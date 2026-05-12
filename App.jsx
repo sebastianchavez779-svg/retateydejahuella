@@ -12,7 +12,7 @@ function AdoptionVisual({ title, footer, ui }) {
           <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
           <div className={`relative flex ${ui?.adoption?.donutOuter || "h-[270px] w-[270px]"} items-center justify-center`}>
             <div className={`${ui?.adoption?.donutRing || "h-[230px] w-[230px] border-[30px]"} rounded-full`} style={{ borderColor: "rgba(191,191,191,0.16)" }} />
-            <motion.div className={`absolute left-1/2 ${ui?.adoption?.cap || "top-[22px] h-[28px] w-[34px]"} -translate-x-1/2 rounded-full`} style={{ backgroundColor: BRAND.yellowText }} initial={{ opacity: 0, scale: 0.65, y: -6 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
+            <motion.div className={`absolute left-1/2 ${ui?.adoption?.cap || "top-[22px] h-[28px] w-[34px]"} -translate-x-1/2 rounded-full`} style={{ backgroundColor: BRAND.yellowText }} initial={ui?.adoption?.capAnimation?.initial ?? { opacity: 0, scale: 0.65, y: -6 }} animate={ui?.adoption?.capAnimation?.animate ?? { opacity: 1, scale: 1, y: 0 }} transition={ui?.adoption?.capAnimation?.transition ?? { duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
             <div className={`absolute ${ui?.adoption?.donutInner || "h-[176px] w-[176px]"} rounded-full bg-[#f7f7f9]`} />
             <span className={`absolute ${ui?.adoption?.value || "text-7xl"} font-bold leading-none`} style={{ color: BRAND.yellowText }}>4%</span>
             <span className={`absolute ${ui?.adoption?.labelOffset || "mt-[94px]"} text-xs font-semibold uppercase tracking-[0.16em]`} style={{ color: BRAND.muted }}>usa IA</span>
@@ -28,7 +28,7 @@ function AdoptionVisual({ title, footer, ui }) {
               <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
               <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
               <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
-                <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.85, delay: 0.45, ease: "easeOut" }} />
+                <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} initial={ui?.adoption?.barAnimation?.initial ?? { width: 0 }} animate={ui?.adoption?.barAnimation?.animate ?? { width: "82%" }} transition={ui?.adoption?.barAnimation?.transition ?? { duration: 0.85, delay: 0.45, ease: "easeOut" }} />
               </div>
             </div>
           </div>
@@ -364,9 +364,9 @@ function SlideContent({ slide }) {
               src={GIA_LOGO_SRC}
               alt="Logo GIA"
               className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
-              initial={{ scale: 0.86, y: -180, rotate: -2 }}
-              animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
-              transition={{ duration: 0.95, delay: 0.15, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
+              initial={slide.ui?.heroAnimation?.initial ?? { scale: 0.86, y: -180, rotate: -2 }}
+              animate={slide.ui?.heroAnimation?.animate ?? { scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
+              transition={slide.ui?.heroAnimation?.transition ?? { duration: 0.95, delay: 0.15, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
         ) : (

@@ -22,6 +22,11 @@ export default {
       donutRing: 'h-[230px] w-[230px] border-[30px]',
       donutInner: 'h-[176px] w-[176px]',
       cap: 'top-[22px] h-[28px] w-[34px]',
+      capAnimation: {
+        initial: { opacity: 0, scale: 0.65, y: -6 },
+        animate: { opacity: 1, scale: 1, y: 0 },
+        transition: { duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
+      },
       value: 'text-7xl',
       labelOffset: 'mt-[94px]',
       card: 'w-full max-w-[480px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5',
