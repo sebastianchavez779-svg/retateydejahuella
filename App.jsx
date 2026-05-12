@@ -6,10 +6,10 @@ import { usePresentation } from "./usePresentation";
 function AdoptionVisual() {
   const circumference = 2 * Math.PI * 82;
   return (
-    <div className="mt-2 grid max-w-[840px] grid-cols-[0.88fr_1.12fr] items-center gap-7">
-      <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-start">
-        <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
-        <svg width="225" height="225" viewBox="0 0 230 230" className="relative -rotate-90">
+    <div className="mt-1 grid w-full max-w-[980px] grid-cols-2 items-center gap-8">
+      <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-center">
+        <div className="absolute h-[250px] w-[250px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
+        <svg width="225" height="225" viewBox="0 0 230 230" className="relative -rotate-90 scale-[1.03]">
           <circle cx="115" cy="115" r="82" stroke="rgba(191,191,191,0.16)" strokeWidth="22" fill="none" />
           <motion.circle cx="115" cy="115" r="82" stroke="url(#adoptionGrad)" strokeWidth="22" strokeLinecap="round" strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }} animate={{ strokeDashoffset: circumference * 0.96 }} transition={{ duration: 1.15, ease: "easeOut", delay: 0.15 }} fill="none" />
           <defs>
@@ -19,21 +19,21 @@ function AdoptionVisual() {
             </linearGradient>
           </defs>
         </svg>
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute left-[112px] flex -translate-x-1/2 flex-col items-center justify-center">
-          <span className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
-          <span className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
+          <span className="text-[68px] font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
+          <span className="mt-1 text-[13px] font-semibold uppercase tracking-[0.2em]" style={{ color: BRAND.muted }}>usa IA</span>
         </motion.div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="w-full max-w-[390px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
+      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="justify-self-center w-full max-w-[560px] rounded-[1.4rem] border border-white/45 bg-white/35 px-7 py-6 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
         <div className="flex items-start gap-4">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
-            <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
-            <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
+            <p className="text-[19px] leading-[1.62]" style={{ color: BRAND.body }}>Procesos manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas que no generan valor directo.</p>
+            <div className="mt-1 h-2 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
               <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.9, delay: 0.75 }} className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
             </div>
           </div>
@@ -46,8 +46,8 @@ function AdoptionVisual() {
 function QuestionSlide() {
   const lines = ["¿Cuánto dinero", "estuvo en riesgo", "en el 2025", "por errores en las", "órdenes de compra?"];
   return (
-    <div className="flex h-full items-start justify-start">
-      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="text-[74px] font-bold leading-[0.95] tracking-[-0.055em]" style={{ color: BRAND.purple }}>
+    <div className="flex h-full items-start justify-start pt-2">
+      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="max-w-[1280px] text-[102px] font-bold leading-[0.9] tracking-[-0.07em]" style={{ color: BRAND.purple }}>
         {lines.map((line, index) => (
           <motion.span key={line} initial={{ opacity: 0, y: -30, filter: "blur(7px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.5, delay: index * 0.13, ease: [0.16, 1, 0.3, 1] }} className="block">{line}</motion.span>
         ))}
@@ -344,7 +344,7 @@ function BackendPath({ d, delay }) {
 }
 
 function ImpactBlock() {
-  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
+  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-[68px] font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
 }
 
 function FlowVisual() {
@@ -352,9 +352,26 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
+function AdoptionSlide({ slide }) {
+  return (
+    <div className="flex h-full flex-col">
+      <header className="pt-2">
+        <h1 className={styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+      </header>
+      <section className="flex flex-1 items-center justify-center">
+        <AdoptionVisual />
+      </section>
+      <footer className="pb-2">
+        {slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      </footer>
+    </div>
+  );
+}
+
 function SlideContent({ slide }) {
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
+  if (slide.visualType === "adoption") return <AdoptionSlide slide={slide} />;
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
@@ -372,7 +389,7 @@ function SlideContent({ slide }) {
         ) : (
           <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
-        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
       {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
@@ -385,7 +402,9 @@ export default function Presentation() {
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
-    slide.visualType === "reprocess"
+    slide.visualType === "adoption"
+      ? "pt-[2.8%] pb-[82px]"
+      : slide.visualType === "reprocess"
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
