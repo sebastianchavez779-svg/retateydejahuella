@@ -349,6 +349,9 @@ function FlowVisual() {
 }
 
 function SlideContent({ slide }) {
+  const uniformVisualTypes = new Set(["adoption", "reprocess", "giaPoint", "backend", "flow"]);
+  const useUniformLayout = uniformVisualTypes.has(slide.visualType) || !slide.visualType;
+
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   if (slide.visualType === "adoption") {
@@ -370,7 +373,7 @@ function SlideContent({ slide }) {
             />
           </div>
         ) : (
-          <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+          <h1 className={useUniformLayout ? styles.title : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
         {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
@@ -385,18 +388,16 @@ export default function Presentation() {
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
   const scenePaddingClass =
-    slide.visualType === "reprocess"
-      ? "pt-[6%] pb-[76px]"
-      : slide.visualType === "backend"
-        ? "pt-[7%] pb-[90px]"
-        : slide.visualType === "adoption"
-          ? "pt-[6%] pb-[76px]"
-          : "pt-[8%] pb-[96px]";
+    slide.visualType === "question"
+      ? "pt-[8%] pb-[96px]"
+      : slide.visualType === "giaIntro"
+        ? ""
+        : "pt-[6%] pb-[76px]";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-1">
       <main
-        className="relative aspect-video w-full max-w-[1800px] max-h-[96vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
+        className="relative aspect-video w-full max-w-[98%] max-h-[96vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
         style={{ aspectRatio: "16 / 9" }}
       >
         {!isFullScene && (
@@ -426,7 +427,7 @@ export default function Presentation() {
             className={
               isFullScene
                 ? "absolute inset-0 z-10"
-                : `relative z-10 flex h-full flex-col px-[6%] ${scenePaddingClass} ${slide.visualType === "question" || slide.visualType === "adoption" ? "justify-start" : "justify-between"}`
+                : `relative z-10 flex h-full flex-col px-[6%] ${scenePaddingClass} ${slide.visualType === "giaIntro" ? "" : "justify-start"}`
             }
           >
             <SlideContent slide={slide} />
