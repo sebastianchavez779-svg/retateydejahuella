@@ -349,9 +349,6 @@ function FlowVisual() {
 }
 
 function SlideContent({ slide }) {
-  const uniformVisualTypes = new Set(["adoption", "reprocess", "giaPoint", "backend", "flow"]);
-  const useUniformLayout = uniformVisualTypes.has(slide.visualType) || !slide.visualType;
-
   if (slide.visualType === "giaIntro") return <GIAIntro />;
   if (slide.visualType === "question") return <QuestionSlide />;
   if (slide.visualType === "adoption") {
@@ -373,11 +370,11 @@ function SlideContent({ slide }) {
             />
           </div>
         ) : (
-          <h1 className={useUniformLayout ? styles.title : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+          <h1 className={styles[slide.layout?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
         )}
         {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
-      {slide.visualType !== "hero" && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      {slide.layout?.showFooter !== false && slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
   );
 }
@@ -387,12 +384,8 @@ export default function Presentation() {
   const slide = slides[current];
   useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
-  const scenePaddingClass =
-    slide.visualType === "question"
-      ? "pt-[8%] pb-[96px]"
-      : slide.visualType === "giaIntro"
-        ? ""
-        : "pt-[6%] pb-[76px]";
+  const scenePaddingClass = slide.layout?.padding ?? "pt-[6%] pb-[76px]";
+  const sceneJustifyClass = slide.layout?.justify ?? "justify-start";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-1">
@@ -427,7 +420,7 @@ export default function Presentation() {
             className={
               isFullScene
                 ? "absolute inset-0 z-10"
-                : `relative z-10 flex h-full flex-col px-[6%] ${scenePaddingClass} ${slide.visualType === "giaIntro" ? "" : "justify-start"}`
+                : `relative z-10 flex h-full flex-col px-[6%] ${scenePaddingClass} ${sceneJustifyClass}`
             }
           >
             <SlideContent slide={slide} />
