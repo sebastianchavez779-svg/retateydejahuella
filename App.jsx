@@ -45,7 +45,7 @@ function QuestionSlide() {
   const lines = ["¿Cuánto dinero", "estuvo en riesgo", "en el 2025", "por errores en las", "órdenes de compra?"];
   return (
     <div className="flex h-full items-start justify-start">
-      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="text-[74px] font-bold leading-[0.95] tracking-[-0.055em]" style={{ color: BRAND.purple }}>
+      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="text-[86px] font-bold leading-[0.93] tracking-[-0.06em]" style={{ color: BRAND.purple }}>
         {lines.map((line, index) => (
           <motion.span key={line} initial={{ opacity: 0, y: -30, filter: "blur(7px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.5, delay: index * 0.13, ease: [0.16, 1, 0.3, 1] }} className="block">{line}</motion.span>
         ))}
@@ -342,7 +342,7 @@ function BackendPath({ d, delay }) {
 }
 
 function ImpactBlock() {
-  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
+  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-[68px] font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
 }
 
 function FlowVisual() {
