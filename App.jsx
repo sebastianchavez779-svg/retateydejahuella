@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
 import { usePresentation } from "./usePresentation";
 
-function AdoptionVisual() {
-  const circumference = 2 * Math.PI * 82;
+function AdoptionVisual({ title, footer }) {
   return (
     <div className="mt-1 grid w-full max-w-[980px] grid-cols-2 items-center gap-8">
       <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-center">
@@ -38,7 +37,8 @@ function AdoptionVisual() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
+      {footer && <p className="max-w-[980px] text-[34px] leading-[1.3]" style={{ color: BRAND.body }}>{footer}</p>}
     </div>
   );
 }
@@ -383,7 +383,7 @@ function SlideContent({ slide }) {
               className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
               initial={{ scale: 0.86, y: -180, rotate: -2 }}
               animate={{ scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
-              transition={{ duration: 0.95, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.95, delay: 0.15, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
         ) : (
@@ -408,7 +408,9 @@ export default function Presentation() {
       ? "pt-[6%] pb-[76px]"
       : slide.visualType === "backend"
         ? "pt-[7%] pb-[90px]"
-        : "pt-[8%] pb-[96px]";
+        : slide.visualType === "adoption"
+          ? "pt-[6%] pb-[76px]"
+          : "pt-[8%] pb-[96px]";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-3">
@@ -443,7 +445,7 @@ export default function Presentation() {
             className={
               isFullScene
                 ? "absolute inset-0 z-10"
-                : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`
+                : `relative z-10 flex h-full flex-col px-[8%] ${scenePaddingClass} ${slide.visualType === "question" || slide.visualType === "adoption" ? "justify-start" : "justify-between"}`
             }
           >
             <SlideContent slide={slide} />
