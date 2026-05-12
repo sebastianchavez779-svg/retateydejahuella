@@ -1,92 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BRAND, GIA_LOGO_SRC, slides, styles, validateSlides } from "./presentationConfig";
+import { usePresentation } from "./usePresentation";
+import Slide05View from "./slides/slide05View";
 
-const GIA_LOGO_SRC = "/ChatGPT Image 4 may 2026, 02_58_01 p.m..png";
-
-const BRAND = {
-  purple: "#7300E1",
-  yellow: "#FFC740",
-  yellowText: "#B98100",
-  blue: "#4ABFFF",
-  dark: "#1A1A1A",
-  body: "#4A4A4A",
-  muted: "#5A5A5A",
-  dangerText: "#E5484D",
-};
-
-const slides = [
-  { title: "GIA", subtitle: "Inteligencia aplicada a decisiones contables", footer: "Piloto IA – Contabilidad 2025", visualType: "hero" },
-  { title: "Adopción de IA en contabilidad", subtitle: "Solo el 4% de las empresas en Perú utiliza inteligencia artificial en el área contable (EY 2025).", footer: "Solo el 4% de las empresas en Perú utiliza inteligencia artificial en el área contable (EY 2025).", visualType: "adoption" },
-  { title: "¿Cuánto dinero estuvo en riesgo en el 2025 por errores en las órdenes de compra?", subtitle: "", footer: "", visualType: "question" },
-  { title: "El error nace mucho antes del pago", subtitle: "", footer: "El riesgo nace en errores de órdenes de compra y se acumula en reprocesos posteriores.", visualType: "reprocess" },
-  { title: "Presentamos GIA", subtitle: "", footer: "", visualType: "giaIntro" },
-  { title: "GIA interviene desde la selección del material", subtitle: "", footer: " ", visualType: "giaPoint" },
-  { title: "El cerebro detrás de GIA", subtitle: "", footer: "", visualType: "backend" },
-  { title: "El error ocurre aquí", subtitle: "Usuario genera OC → selecciona material → sistema asocia detracción → factura se registra → tesorería paga", footer: "El sistema no falla. Ejecuta lo que el usuario decide.", visualType: "flow" },
-  { title: "El problema no es el proceso", subtitle: "El flujo existe. Las reglas existen. El sistema funciona.", footer: "El problema es la falta de validación en el punto de decisión." },
-  { title: "Corregir después siempre es más costoso", subtitle: "Si el error nace en la imputación, todo el proceso posterior hereda ese error.", footer: "Prevenir antes es más eficiente que corregir después." },
-  { title: "El control debe ocurrir antes", subtitle: "El único punto eficiente de intervención es antes de confirmar la imputación.", footer: "Ahí es donde debe existir guía." },
-  { title: "Ahí aparece GIA", subtitle: "GIA es un agente conversacional de IA entrenado con reglas contables internas.", footer: "Interviene antes de que el error ocurra." },
-  { title: "Cómo funciona en la práctica", subtitle: "El usuario consulta y GIA responde con criterios, códigos y validaciones.", footer: "Convierte una duda operativa en una decisión correcta." },
-  { title: "El control pasa de correctivo a preventivo", subtitle: "Menos errores en origen, menos reprocesos y menor exposición fiscal.", footer: "GIA reduce el costo operativo y fiscal." },
-  { title: "Hoy el control ocurre después del error", subtitle: "Los equipos corrigen cuando el impacto ya ocurrió.", footer: "GIA permite que el control ocurra antes." },
-];
-
-const styles = {
-  title: "text-5xl font-bold leading-tight tracking-[-0.03em]",
-  backendTitle: "text-5xl font-bold leading-tight tracking-[-0.04em]",
-  reprocessTitle: "max-w-[820px] text-4xl font-bold leading-[1.08] tracking-[-0.03em]",
-  body: "max-w-[700px] text-base leading-7",
-  footer: "max-w-[720px] text-base font-semibold leading-7",
-  label: "text-xs font-semibold uppercase tracking-[0.14em]",
-};
-
-function runTests() {
-  console.assert(slides.length === 15, "Deben ser 15 slides");
-  console.assert(slides[1].visualType === "adoption", "Slide 2 debe usar visual adoption");
-  console.assert(slides[2].visualType === "question", "Slide 3 debe mantenerse como pregunta");
-  console.assert(slides[3].visualType === "reprocess", "Slide 4 debe usar visual de reproceso");
-  console.assert(slides[4].visualType === "giaIntro", "Slide 5 debe presentar GIA como escena completa");
-  console.assert(slides[5].visualType === "giaPoint", "Slide 6 debe mostrar punto de intervención");
-  console.assert(slides[6].visualType === "backend", "Slide 7 debe explicar backend de GIA");
-}
-
-function AdoptionVisual() {
-  const circumference = 2 * Math.PI * 82;
+function AdoptionVisual({ title, footer, ui }) {
   return (
-    <div className="mt-2 grid max-w-[840px] grid-cols-[0.88fr_1.12fr] items-center gap-7">
-      <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative flex items-center justify-start">
-        <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
-        <svg width="225" height="225" viewBox="0 0 230 230" className="relative -rotate-90">
-          <circle cx="115" cy="115" r="82" stroke="rgba(191,191,191,0.16)" strokeWidth="22" fill="none" />
-          <motion.circle cx="115" cy="115" r="82" stroke="url(#adoptionGrad)" strokeWidth="22" strokeLinecap="round" strokeDasharray={circumference} initial={{ strokeDashoffset: circumference }} animate={{ strokeDashoffset: circumference * 0.96 }} transition={{ duration: 1.15, ease: "easeOut", delay: 0.15 }} fill="none" />
-          <defs>
-            <linearGradient id="adoptionGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor={BRAND.purple} stopOpacity="0.9" />
-              <stop offset="100%" stopColor={BRAND.yellow} stopOpacity="0.95" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.75 }} className="absolute left-[112px] flex -translate-x-1/2 flex-col items-center justify-center">
-          <span className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
-          <span className="mt-1 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
-        </motion.div>
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.42 }} className="w-full max-w-[390px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl">
-        <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
+    <div className="flex flex-col gap-7">
+      <h1 className={styles[ui?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{title}</h1>
+      <div className={ui?.adoption?.wrapperGrid || "mt-0 grid max-w-[1020px] grid-cols-[0.88fr_1.12fr] items-center gap-7"}>
+        <div className="relative flex items-center justify-start">
+          <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
+          <div className={`relative flex ${ui?.adoption?.donutOuter || "h-[270px] w-[270px]"} items-center justify-center`}>
+            <div className={`${ui?.adoption?.donutRing || "h-[230px] w-[230px] border-[30px]"} rounded-full`} style={{ borderColor: "rgba(191,191,191,0.16)" }} />
+            <motion.div className={`absolute left-1/2 ${ui?.adoption?.cap || "top-[22px] h-[28px] w-[34px]"} -translate-x-1/2 rounded-full`} style={{ backgroundColor: BRAND.yellowText }} initial={ui?.adoption?.capAnimation?.initial ?? { opacity: 0, scale: 0.65, y: -6 }} animate={ui?.adoption?.capAnimation?.animate ?? { opacity: 1, scale: 1, y: 0 }} transition={ui?.adoption?.capAnimation?.transition ?? { duration: 0.45, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
+            <div className={`absolute ${ui?.adoption?.donutInner || "h-[176px] w-[176px]"} rounded-full bg-[#f7f7f9]`} />
+            <span className={`absolute ${ui?.adoption?.value || "text-7xl"} font-bold leading-none`} style={{ color: BRAND.yellowText }}>4%</span>
+            <span className={`absolute ${ui?.adoption?.labelOffset || "mt-[94px]"} text-xs font-semibold uppercase tracking-[0.16em]`} style={{ color: BRAND.muted }}>usa IA</span>
           </div>
-          <div className="space-y-3">
-            <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
-            <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
-            <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
-              <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.9, delay: 0.75 }} className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
+        </div>
+
+        <div className={ui?.adoption?.card || "w-full max-w-[480px] rounded-[1.25rem] border border-white/45 bg-white/30 p-5 shadow-[0_20px_50px_rgba(20,20,40,0.08)] backdrop-blur-2xl"}>
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/30" style={{ borderColor: "rgba(115,0,225,0.15)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /><path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" /></svg>
+            </div>
+            <div className="space-y-3">
+              <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
+              <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
+              <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
+                <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} initial={ui?.adoption?.barAnimation?.initial ?? { width: 0 }} animate={ui?.adoption?.barAnimation?.animate ?? { width: "82%" }} transition={ui?.adoption?.barAnimation?.transition ?? { duration: 0.85, delay: 0.45, ease: "easeOut" }} />
+              </div>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
+      {ui?.showFooter !== false && footer && <p className={styles[ui?.footerClass || "footer"] || styles.footer} style={{ color: BRAND.body }}>{footer}</p>}
     </div>
   );
 }
@@ -128,34 +77,6 @@ function ReprocessVisual() {
       <div className="flex flex-col justify-center gap-4">
         {kpis.map((item, index) => (<motion.div key={item.label} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, scale: [1, 1.04, 1] }} transition={{ opacity: { duration: 0.35, delay: 1.2 + index * 0.12 }, x: { duration: 0.35, delay: 1.2 + index * 0.12 }, scale: { duration: 0.6, repeat: 2, repeatDelay: 0.2, delay: 1.4 + index * 0.15 } }} className="rounded-full border border-white/40 bg-white/25 px-7 py-4 backdrop-blur-2xl"><p className="text-3xl font-extrabold leading-none" style={{ color: item.color }}>{item.value}</p><p className="mt-1 text-sm" style={{ color: BRAND.muted }}>{item.label}</p></motion.div>))}
       </div>
-    </div>
-  );
-}
-
-function GIAIntro() {
-  const errorChips = [
-    { title: "Centro de costo", detail: "No coincide con área", left: 120, top: 120, absorbX: 245, absorbY: 115, delay: 1.0, status: "ERROR" },
-    { title: "Fecha emisión", detail: "Fuera de periodo", left: 610, top: 112, absorbX: -245, absorbY: 123, delay: 1.22, status: "ERROR" },
-    { title: "Cierre mensual", detail: "Riesgo de descuadre", left: 160, top: 330, absorbX: 205, absorbY: -95, delay: 1.44, status: "ALERTA" },
-    { title: "IGV", detail: "Inconsistencia detectada", left: 630, top: 318, absorbX: -265, absorbY: -83, delay: 1.66, status: "ERROR" },
-    { title: "Clasificación", detail: "Gasto vs activo", left: 365, top: 205, absorbX: 0, absorbY: 30, delay: 1.88, status: "ERROR" },
-    { title: "Tipo documento", detail: "Validación inválida", left: 365, top: 390, absorbX: 0, absorbY: -155, delay: 2.1, status: "ALERTA" },
-  ];
-  const advantages = [
-    { title: "Detección automática", detail: "Errores antes del cierre", top: 145, delay: 9.35 },
-    { title: "Decisiones claras", detail: "Sin ambigüedad contable", top: 240, delay: 9.55 },
-    { title: "Ahorro de tiempo", detail: "Menos revisión manual", top: 335, delay: 9.75 },
-  ];
-  const routes = [
-    { x1: 235, y1: 150, x2: 725, y2: 142, delay: 1.22 }, { x1: 725, y1: 142, x2: 275, y2: 360, delay: 1.44 }, { x1: 275, y1: 360, x2: 745, y2: 348, delay: 1.66 }, { x1: 745, y1: 348, x2: 480, y2: 235, delay: 1.88 }, { x1: 480, y1: 235, x2: 480, y2: 420, delay: 2.1 },
-  ];
-  return (
-    <div className="absolute inset-0 overflow-hidden rounded-[2rem] bg-white">
-      <motion.div className="absolute inset-0" initial={{ backgroundColor: "#ffffff" }} animate={{ backgroundColor: ["#ffffff", "#050509", "#050509", "#ffffff"] }} transition={{ duration: 6.3, times: [0, 0.16, 0.84, 1], ease: "easeInOut" }} />
-      <motion.svg className="absolute inset-0 z-[1] h-full w-full" viewBox="0 0 960 540" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1.6, delay: 1.0, times: [0, 0.25, 1] }}>{routes.map((r, i) => (<motion.line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="rgba(255,77,109,0.62)" strokeWidth="2.4" strokeLinecap="round" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: [0, 1, 0.9] }} transition={{ duration: 0.22, delay: r.delay, ease: [0.16, 1, 0.3, 1] }} style={{ filter: "drop-shadow(0 0 6px rgba(255,77,109,0.45)) drop-shadow(0 0 14px rgba(255,77,109,0.30))" }} />))}</motion.svg>
-      {errorChips.map((chip) => (<motion.div key={chip.title} className="absolute z-[4] w-[230px] rounded-[14px] border bg-white/95 py-[14px] pl-[48px] pr-4 shadow-[0_10px_28px_rgba(0,0,0,0.12)]" style={{ left: chip.left, top: chip.top, borderColor: "rgba(0,0,0,0.08)", color: "#0B0B10" }} initial={{ opacity: 0, y: 26, scale: 0.72, filter: "blur(8px)" }} animate={{ opacity: [0, 1, 1, 1, 0], y: [26, -4, 0, 0, chip.absorbY], x: [0, 0, 0, 0, chip.absorbX], scale: [0.72, 1.04, 1, 1.06, 0.03], filter: ["blur(8px)", "blur(0px)", "blur(0px)", "blur(0px)", "blur(8px)"] }} transition={{ duration: 2.9, delay: chip.delay, times: [0, 0.18, 0.38, 0.82, 1], ease: [0.16, 1, 0.3, 1] }}><div className="absolute bottom-3 left-4 top-3 w-1 rounded-full" style={{ background: "linear-gradient(180deg, #ff4d6d, #ff6b81)", boxShadow: "0 0 8px rgba(255,77,109,0.35)" }} /><div className="absolute right-3 top-2 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: "rgba(255,77,109,0.12)", color: "#ff4d6d" }}>{chip.status}</div><strong className="mb-1 block text-[13px] font-semibold">{chip.title}</strong><span className="text-xs" style={{ color: "rgba(0,0,0,0.45)" }}>{chip.detail}</span></motion.div>))}
-      <motion.div className="absolute left-1/2 top-1/2 z-[5] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center" initial={{ opacity: 0, scale: 0.62, x: 0, filter: "blur(18px)" }} animate={{ opacity: [0, 1, 1, 1, 1], scale: [0.62, 1.12, 0.96, 1, 0.82], x: [0, 0, 0, 0, -235], filter: ["blur(18px)", "blur(0px)", "blur(0px)", "blur(0px)", "blur(0px)"] }} transition={{ duration: 5.6, delay: 3.85, times: [0, 0.22, 0.36, 0.84, 1], ease: [0.16, 1, 0.3, 1] }}><motion.div className="relative flex h-[220px] w-[220px] items-center justify-center" initial={{ scale: 0.55 }} animate={{ scale: [0.55, 1.22, 1, 1.05, 1, 1.05, 1] }} transition={{ duration: 3.15, delay: 3.85, times: [0, 0.25, 0.40, 0.58, 0.72, 0.86, 1], ease: [0.16, 1, 0.3, 1] }}><motion.div className="absolute inset-0 rounded-full" initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: [0, 0.8, 0.6, 0.8, 0.5], scale: [0.6, 1.3, 1.1, 1.2, 1] }} transition={{ duration: 3.2, delay: 3.85 }} style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), rgba(115,0,225,0.15), transparent 70%)", filter: "blur(25px)" }} /><img src={GIA_LOGO_SRC} alt="GIA" className="relative h-full w-full object-contain" style={{ filter: "drop-shadow(0 0 25px rgba(115,0,225,0.8))" }} /></motion.div><div className="mt-5 text-center text-[80px] font-extrabold leading-none" style={{ color: "#6d28d9" }}>GIA</div><div className="mt-2 text-center text-xl" style={{ color: "#444" }}>La guía contable</div></motion.div>
-      {advantages.map((item) => (<motion.div key={item.title} className="absolute z-[4] w-[230px] rounded-[14px] border py-[14px] pl-[48px] pr-4 shadow-[0_10px_28px_rgba(0,0,0,0.10)]" style={{ left: 570, top: item.top, borderColor: "rgba(34,197,94,0.2)", backgroundColor: "rgba(240,253,244,0.92)", color: "#0B0B10" }} initial={{ opacity: 0, y: -180, scale: 0.94, filter: "blur(6px)" }} animate={{ opacity: 1, y: [-180, 10, -5, 0], scale: [0.94, 1.03, 0.99, 1], filter: "blur(0px)" }} transition={{ duration: 0.72, delay: item.delay, ease: [0.16, 1, 0.3, 1] }}><div className="absolute bottom-3 left-4 top-3 w-1 rounded-full" style={{ background: "linear-gradient(180deg, #22c55e, #4ade80)", boxShadow: "0 0 8px rgba(34,197,94,0.35)" }} /><div className="absolute right-3 top-2 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ backgroundColor: "rgba(34,197,94,0.12)", color: "#16a34a" }}>OK</div><strong className="mb-1 block text-[13px] font-semibold">{item.title}</strong><span className="text-xs" style={{ color: "rgba(0,0,0,0.45)" }}>{item.detail}</span></motion.div>))}
     </div>
   );
 }
@@ -392,7 +313,7 @@ function BackendPath({ d, delay }) {
 }
 
 function ImpactBlock() {
-  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-6xl font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
+  return <div className="mt-1 flex max-w-[620px] items-end gap-5"><div className="rounded-[1.75rem] border border-white/55 bg-white/60 px-7 py-5 shadow-[0_22px_55px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><p className="text-7xl font-bold leading-none" style={{ color: BRAND.yellowText }}>S/ 300K</p><p className="mt-2 text-sm font-medium" style={{ color: BRAND.muted }}>IGV en riesgo identificado</p></div><div className="hidden h-28 flex-1 items-end gap-2 md:flex">{[38, 72, 52, 96].map((height, index) => <div key={`${height}-${index}`} className="flex-1 rounded-t-2xl" style={{ height, background: "linear-gradient(0deg, rgba(115,0,225,0.30), rgba(74,191,255,0.22), rgba(255,199,64,0.35))" }} />)}</div></div>;
 }
 
 function FlowVisual() {
@@ -400,34 +321,134 @@ function FlowVisual() {
   return <div className="mt-2 grid max-w-[780px] grid-cols-6 items-stretch gap-2">{steps.map((step, index) => <div key={step} className="relative"><div className="flex h-20 items-center justify-center rounded-2xl border px-2 text-center text-xs font-semibold shadow-[0_12px_28px_rgba(20,20,40,0.08)] backdrop-blur-xl" style={{ borderColor: step === "Material" ? "rgba(115,0,225,0.25)" : "rgba(255,255,255,0.55)", backgroundColor: step === "Material" ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.55)", color: step === "Material" ? BRAND.purple : BRAND.body }}>{step}</div>{index < steps.length - 1 && <div className="absolute -right-2 top-1/2 z-10 h-[2px] w-4 -translate-y-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.35), rgba(74,191,255,0.35))" }} />}</div>)}</div>;
 }
 
-function SlideContent({ slide, current }) {
-  if (slide.visualType === "giaIntro") return <GIAIntro />;
+function SlideContent({ slide }) {
+  if (slide.visualType === "giaIntro") return <Slide05View />;
   if (slide.visualType === "question") return <QuestionSlide />;
+  if (slide.visualType === "adoption") {
+    return <AdoptionVisual title={slide.title} footer={slide.footer} ui={slide.ui} />;
+  }
+
   return (
     <>
       <div className={slide.visualType === "backend" ? "flex flex-col gap-3" : "flex flex-col gap-6"}>
-        {slide.visualType === "hero" ? <div className="relative w-fit rounded-[2rem] border border-white/45 bg-white/40 p-8 shadow-[0_24px_70px_rgba(20,20,40,0.12)] backdrop-blur-2xl"><img src={GIA_LOGO_SRC} alt="Logo GIA" className="w-[300px] object-contain" /></div> : <h1 className={slide.visualType === "reprocess" ? styles.reprocessTitle : slide.visualType === "backend" ? styles.backendTitle : styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>}
-        {slide.visualType === "adoption" ? <AdoptionVisual /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : <p className={styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
+        {slide.visualType === "hero" ? (
+          <div className="w-full pt-[3%]">
+            <motion.img
+              src={GIA_LOGO_SRC}
+              alt="Logo GIA"
+              className="mx-auto w-[50%] min-w-[460px] max-w-[760px] object-contain"
+              initial={slide.ui?.heroAnimation?.initial ?? { scale: 0.86, y: -180, rotate: -2 }}
+              animate={slide.ui?.heroAnimation?.animate ?? { scale: [0.86, 1.06, 0.97, 1], y: [-180, 24, -10, 0], rotate: [-2, 1.2, -0.5, 0] }}
+              transition={slide.ui?.heroAnimation?.transition ?? { duration: 0.95, delay: 0.15, times: [0, 0.62, 0.84, 1], ease: [0.22, 1, 0.36, 1] }}
+            />
+          </div>
+        ) : (
+          <h1 className={styles[slide.ui?.titleStyle || slide.layout?.titleStyle || "title"] || styles.title} style={{ color: BRAND.purple }}>{slide.title}</h1>
+        )}
+        {slide.visualType === "adoption" ? <AdoptionVisual title={slide.title} footer={slide.footer} /> : slide.visualType === "reprocess" ? <ReprocessVisual /> : slide.visualType === "giaPoint" ? <GIAPointVisual /> : slide.visualType === "backend" ? <BackendVisual /> : slide.visualType === "impact" ? <ImpactBlock /> : slide.visualType === "flow" ? <FlowVisual /> : slide.visualType === "hero" ? null : <p className={styles[slide.ui?.bodyClass || "body"] || styles.body} style={{ color: BRAND.body }}>{slide.subtitle}</p>}
       </div>
-      {slide.footer && <p className={styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
+      {(slide.ui?.showFooter ?? slide.layout?.showFooter) !== false && slide.footer && <p className={styles[slide.ui?.footerClass || "footer"] || styles.footer} style={{ color: BRAND.body }}>{slide.footer}</p>}
     </>
   );
 }
 
 export default function Presentation() {
-  const [current, setCurrent] = useState(0);
+  const { current, next, prev, goTo } = usePresentation(slides.length);
   const slide = slides[current];
-  useEffect(() => runTests(), []);
-  const next = () => setCurrent((value) => (value + 1) % slides.length);
-  const prev = () => setCurrent((value) => (value - 1 + slides.length) % slides.length);
+  useEffect(() => validateSlides(), []);
   const isFullScene = slide.visualType === "giaIntro";
+  const scenePaddingClass = slide.ui?.sectionPadding ?? slide.layout?.padding ?? "pt-[6%] pb-[76px]";
+  const sceneJustifyClass = slide.ui?.sectionJustify ?? slide.layout?.justify ?? "justify-start";
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-6">
-      <main className="relative aspect-video w-full max-w-[960px] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]">
-        {!isFullScene && <><div className="pointer-events-none absolute -left-32 -top-32 h-[300px] w-[300px] blur-[90px]" style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), transparent)" }} /><div className="pointer-events-none absolute -bottom-32 -right-32 h-[300px] w-[300px] blur-[90px]" style={{ background: "radial-gradient(circle, rgba(74,191,255,0.35), transparent)" }} /><div className="pointer-events-none absolute -right-20 top-1/3 h-[200px] w-[200px] blur-[80px]" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.4), transparent)" }} /></>}
-        <AnimatePresence mode="wait"><motion.section key={current} initial={{ opacity: 0, y: isFullScene ? 0 : 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: isFullScene ? 0 : -18 }} transition={{ duration: 0.42, ease: "easeOut" }} className={isFullScene ? "absolute inset-0 z-10" : `relative z-10 flex h-full flex-col px-[8%] ${slide.visualType === "reprocess" ? "pt-[6%] pb-[76px]" : slide.visualType === "backend" ? "pt-[7%] pb-[90px]" : "pt-[8%] pb-[96px]"} ${slide.visualType === "question" ? "justify-start" : "justify-between"}`}><SlideContent slide={slide} current={current} /></motion.section></AnimatePresence>
-        <div className="pointer-events-none absolute left-0 right-0 top-1/2 z-30 flex -translate-y-1/2 items-center justify-between px-[3.5%]"><button type="button" onClick={prev} aria-label="Slide anterior" className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:-translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"><span className="text-base leading-none" style={{ color: BRAND.dark }}>‹</span></button><button type="button" onClick={next} aria-label="Siguiente slide" className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"><span className="text-base leading-none" style={{ color: BRAND.dark }}>›</span></button></div>
-        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/55 bg-white/55 px-4 py-2 shadow-[0_12px_30px_rgba(20,20,40,0.10)] backdrop-blur-2xl"><span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.8)" }}>{String(current + 1).padStart(2, "0")}</span><div className="flex items-center gap-2">{slides.map((_, index) => <button key={index} type="button" onClick={() => setCurrent(index)} aria-label={`Ir al slide ${index + 1}`} className="h-1.5 rounded-full transition-all duration-300" style={{ width: index === current ? 28 : 8, background: index === current ? "linear-gradient(90deg, rgba(115,0,225,0.80), rgba(74,191,255,0.80))" : "rgba(191,191,191,0.60)" }} />)}</div><span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.5)" }}>{String(slides.length).padStart(2, "0")}</span></div>
+    <div className="flex min-h-screen items-center justify-center bg-[#eef0f4] p-1">
+      <main
+        className="relative aspect-video w-full max-w-[98%] max-h-[96vh] overflow-hidden rounded-[2rem] bg-[#f7f7f9] shadow-[0_30px_100px_rgba(20,20,40,0.18)]"
+        style={{ aspectRatio: "16 / 9" }}
+      >
+        {!isFullScene && (
+          <>
+            <div
+              className="pointer-events-none absolute -left-32 -top-32 h-[300px] w-[300px] blur-[90px]"
+              style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), transparent)" }}
+            />
+            <div
+              className="pointer-events-none absolute -bottom-32 -right-32 h-[300px] w-[300px] blur-[90px]"
+              style={{ background: "radial-gradient(circle, rgba(74,191,255,0.35), transparent)" }}
+            />
+            <div
+              className="pointer-events-none absolute -right-20 top-1/3 h-[200px] w-[200px] blur-[80px]"
+              style={{ background: "radial-gradient(circle, rgba(255,199,64,0.4), transparent)" }}
+            />
+          </>
+        )}
+
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.section
+            key={current}
+            initial={{ opacity: 0, y: isFullScene ? 0 : 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: isFullScene ? 0 : -18 }}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+            className={
+              isFullScene
+                ? "absolute inset-0 z-10"
+                : `relative z-10 flex h-full flex-col px-[6%] ${scenePaddingClass} ${sceneJustifyClass}`
+            }
+          >
+            <SlideContent slide={slide} />
+          </motion.section>
+        </AnimatePresence>
+
+        <div className="pointer-events-none absolute left-0 right-0 top-1/2 z-30 flex -translate-y-1/2 items-center justify-between px-[3.5%]">
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Slide anterior"
+            className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:-translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"
+          >
+            <span className="text-base leading-none" style={{ color: BRAND.dark }}>
+              ‹
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Siguiente slide"
+            className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"
+          >
+            <span className="text-base leading-none" style={{ color: BRAND.dark }}>
+              ›
+            </span>
+          </button>
+        </div>
+
+        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/55 bg-white/55 px-4 py-2 shadow-[0_12px_30px_rgba(20,20,40,0.10)] backdrop-blur-2xl">
+          <span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.8)" }}>
+            {String(current + 1).padStart(2, "0")}
+          </span>
+          <div className="flex items-center gap-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-label={`Ir al slide ${index + 1}`}
+                className="h-1.5 rounded-full transition-all duration-300"
+                style={{
+                  width: index === current ? 28 : 8,
+                  background:
+                    index === current
+                      ? "linear-gradient(90deg, rgba(115,0,225,0.80), rgba(74,191,255,0.80))"
+                      : "rgba(191,191,191,0.60)",
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-xs font-semibold" style={{ color: "rgba(74,74,74,0.5)" }}>
+            {String(slides.length).padStart(2, "0")}
+          </span>
+        </div>
       </main>
     </div>
   );
