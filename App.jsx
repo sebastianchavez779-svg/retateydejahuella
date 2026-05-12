@@ -12,7 +12,7 @@ function AdoptionVisual({ title, footer }) {
           <div className="absolute h-[230px] w-[230px] rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,199,64,0.25), rgba(115,0,225,0.10), transparent 70%)" }} />
           <div className="relative flex h-[270px] w-[270px] items-center justify-center">
             <div className="h-[230px] w-[230px] rounded-full border-[30px]" style={{ borderColor: "rgba(191,191,191,0.16)" }} />
-            <div className="absolute left-1/2 top-[22px] h-[30px] w-[52px] -translate-x-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.92), rgba(255,199,64,0.82))" }} />
+            <motion.div className="absolute left-1/2 top-[22px] h-[30px] w-[52px] -translate-x-1/2 rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.92), rgba(255,199,64,0.82))" }} initial={{ opacity: 0, scaleX: 0.2, y: -8 }} animate={{ opacity: 1, scaleX: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} />
             <div className="absolute h-[176px] w-[176px] rounded-full bg-[#f7f7f9]" />
             <span className="absolute text-7xl font-bold leading-none" style={{ color: BRAND.yellowText }}>4%</span>
             <span className="absolute mt-[94px] text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: BRAND.muted }}>usa IA</span>
@@ -28,7 +28,7 @@ function AdoptionVisual({ title, footer }) {
               <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>El resultado</p>
               <p className="text-base leading-7" style={{ color: BRAND.body }}>Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta <span className="font-bold" style={{ color: BRAND.yellowText }}>120 horas al mes</span> en tareas sin valor agregado.</p>
               <div className="h-1.5 overflow-hidden rounded-full" style={{ backgroundColor: "rgba(191,191,191,0.25)" }}>
-                <div className="h-full w-[82%] rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} />
+                <motion.div className="h-full rounded-full" style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }} initial={{ width: 0 }} animate={{ width: "82%" }} transition={{ duration: 0.85, delay: 0.45, ease: "easeOut" }} />
               </div>
             </div>
           </div>
