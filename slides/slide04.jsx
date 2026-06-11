@@ -20,7 +20,7 @@ const funnelLevels = [
   {
     label: "TAM",
     name: "Mercado total disponible",
-    metric: "1.5MM usuarios",
+    metric: "1.6MM usuarios",
     blockWidth: 196,
     width: 700,
     height: 112,
@@ -38,7 +38,7 @@ const funnelLevels = [
   {
     label: "SAM",
     name: "Mercado servible alcanzable",
-    metric: "150K usuarios activos",
+    metric: "243K usuarios activos",
     blockWidth: 196,
     width: 540,
     height: 104,
@@ -56,7 +56,7 @@ const funnelLevels = [
   {
     label: "SOM",
     name: "Mercado obtenible inicial",
-    metric: "50K usuarios accionables",
+    metric: "13K usuarios alto valor",
     blockWidth: 196,
     width: 405,
     height: 98,
