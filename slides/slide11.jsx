@@ -1,50 +1,59 @@
-import { motion } from "framer-motion";
-import { BRAND } from "../presentationConfig";
+import impactoNegocioTitle from "../assets/slide11-impacto-negocio-title.png";
 import { createSlide } from "./shared/createSlide";
+import {
+  AnimatedTitleImage,
+  COLORS,
+  FeatureBoard,
+  SoftDecor,
+} from "./shared/AnimatedTitleBoard";
 
-const lines = [
-  ["No", "estamos", "adquiriendo"],
-  ["solo", "licencias"],
-  ["estamos", "adquiriendo"],
-  ["poder", "de", "decisión"],
-  ["más", "rápida", "y", "eficiente"],
+const impacts = [
+  {
+    number: "01",
+    title: "Frecuencia",
+    detail: "Los visitantes regresan para acumular huellas y canjear beneficios.",
+    stat: "Fidelizacion",
+    accent: COLORS.cyan,
+  },
+  {
+    number: "02",
+    title: "Ventas",
+    detail: "Las tiendas participantes reciben mas trafico con intencion de compra.",
+    stat: "Locatarios",
+    accent: COLORS.blue,
+  },
+  {
+    number: "03",
+    title: "Renta variable",
+    detail: "El mayor movimiento comercial puede convertirse en captura de valor.",
+    stat: "Negocio",
+    accent: COLORS.green,
+  },
+  {
+    number: "04",
+    title: "Data",
+    detail: "Cada accion revela habitos, categorias y campanas que funcionan mejor.",
+    stat: "Inteligencia",
+    accent: COLORS.lime,
+  },
 ];
 
 function Slide11Component() {
-  let wordIndex = 0;
-
   return (
-    <div className="flex h-full items-center justify-center">
-      <div className="max-w-[980px] text-center">
-        {lines.map((line, lineIndex) => (
-          <div key={line.join(" ")} className={lineIndex === 2 ? "mt-7" : "mt-2"}>
-            {line.map((word) => {
-              const delay = wordIndex * 0.18;
-              wordIndex += 1;
+    <div className="relative h-full w-full overflow-hidden">
+      <SoftDecor />
 
-              return (
-                <motion.span
-                  key={`${word}-${wordIndex}`}
-                  className="mx-2 inline-block text-[4rem] font-black leading-[1.05] tracking-[-0.02em]"
-                  style={{
-                    color:
-                      lineIndex >= 3
-                        ? BRAND.purple
-                        : lineIndex === 1
-                          ? BRAND.yellowText
-                          : BRAND.dark,
-                  }}
-                  initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.46, delay, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {word}
-                </motion.span>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+      <AnimatedTitleImage src={impactoNegocioTitle} alt="Impacto en el negocio" />
+
+      <FeatureBoard
+        badge="Negocio medible"
+        cardClass="h-[184px]"
+        gridClass="grid-cols-4"
+        items={impacts}
+        title="Sostenibilidad convertida en resultados de negocio."
+        topic="Impacto en el negocio"
+        widthClass="w-[1080px]"
+      />
     </div>
   );
 }
@@ -52,8 +61,7 @@ function Slide11Component() {
 export default createSlide({
   id: "slide11",
   layout: {
-    padding: "py-[5.2%]",
-    justify: "justify-center",
+    padding: "pt-[5.2%] pb-[24px]",
   },
   Component: Slide11Component,
 });

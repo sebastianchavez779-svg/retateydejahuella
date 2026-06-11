@@ -1,122 +1,243 @@
 import { motion } from "framer-motion";
-import { BRAND } from "../presentationConfig";
+import visitanteTitle from "../assets/slide08-visitante-title.png";
 import { createSlide } from "./shared/createSlide";
 
-const cards = [
+const TITLE_DURATION = 2.05;
+const CONTENT_DELAY = TITLE_DURATION - 0.02;
+const EASE_OUT = [0.16, 1, 0.3, 1];
+
+const LIME = "#B1DC6B";
+const GREEN = "#3D9D23";
+const CYAN = "#53DBFF";
+const BLUE = "#17AEEA";
+const INK = "#26322E";
+const BODY = "rgba(38,50,46,0.66)";
+
+const steps = [
   {
-    title: "Operativo",
-    text: "Eliminación de reprocesos y reducción drástica de la carga de validación manual.",
-    icon: "gears",
-    accent: BRAND.blue,
+    number: "01",
+    title: "Actua",
+    detail: "Recicla, compra en tiendas verdes o participa en retos sostenibles.",
+    stat: "+20 / +50 / +100",
+    accent: CYAN,
   },
   {
-    title: "Financiero",
-    text: "Protección total del crédito fiscal y eliminación de contingencias o multas por imputaciones erróneas.",
-    icon: "shield",
-    accent: BRAND.purple,
+    number: "02",
+    title: "Acumula huellas",
+    detail: "Cada accion suma puntos visibles dentro del perfil del visitante.",
+    stat: "Huellas Layo",
+    accent: LIME,
   },
   {
-    title: "Organizacional",
-    text: "Estandarización de criterios y optimización del tiempo del equipo experto contable.",
-    icon: "network",
-    accent: BRAND.yellow,
+    number: "03",
+    title: "Canjea beneficios",
+    detail: "Las huellas se convierten en descuentos, premios y experiencias.",
+    stat: "Recompensas",
+    accent: BLUE,
   },
 ];
 
-function Slide08Component({ slide }) {
+function Slide08Decor() {
+  const dots = [
+    { left: "13%", top: "29%", size: 8, color: LIME, delay: 0.1 },
+    { left: "84%", top: "28%", size: 6, color: CYAN, delay: 0.42 },
+    { left: "17%", top: "76%", size: 6, color: CYAN, delay: 0.74 },
+    { left: "81%", top: "74%", size: 8, color: LIME, delay: 1.04 },
+  ];
+
   return (
-    <div className="relative flex h-full flex-col overflow-hidden">
-      <h1
-        className="relative z-10 max-w-[820px] text-[3.5rem] font-bold leading-[1.02] tracking-[-0.04em]"
-        style={{ color: BRAND.purple }}
-      >
-        {slide.title}
-      </h1>
+    <>
+      <motion.div
+        className="absolute left-[8%] top-[32%] z-0 h-[220px] w-[220px] rounded-full blur-[78px]"
+        style={{ background: "rgba(177,220,107,0.16)" }}
+        initial={{ opacity: 0, scale: 0.86 }}
+        animate={{ opacity: [0.12, 0.24, 0.12], scale: [1, 1.08, 1] }}
+        transition={{
+          duration: 12,
+          delay: TITLE_DURATION + 0.24,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-      <div className="relative z-10 flex flex-1 items-center">
-        <div className="grid w-full grid-cols-3 gap-8">
-          {cards.map((card, index) => (
-            <motion.article
-              key={card.title}
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.16 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="relative min-h-[292px] overflow-hidden rounded-[1.45rem] border border-white/70 bg-white/58 px-8 py-8 shadow-[0_24px_60px_rgba(20,20,40,0.09)] backdrop-blur-2xl"
-            >
-              <div
-                className="absolute inset-x-0 top-0 h-[3px]"
-                style={{ background: `linear-gradient(90deg, ${card.accent}, rgba(255,255,255,0.25))` }}
-              />
-              <div
-                className="absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-20 blur-2xl"
-                style={{ background: card.accent }}
-              />
+      <motion.div
+        className="absolute right-[8%] top-[36%] z-0 h-[236px] w-[236px] rounded-full blur-[82px]"
+        style={{ background: "rgba(83,219,255,0.16)" }}
+        initial={{ opacity: 0, scale: 0.86 }}
+        animate={{ opacity: [0.1, 0.22, 0.1], scale: [1, 1.08, 1] }}
+        transition={{
+          duration: 13,
+          delay: TITLE_DURATION + 0.52,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-              <Icon type={card.icon} color={card.accent} />
+      {dots.map((dot) => (
+        <motion.span
+          key={`${dot.left}-${dot.top}`}
+          className="absolute z-0 rounded-full"
+          style={{
+            left: dot.left,
+            top: dot.top,
+            width: dot.size,
+            height: dot.size,
+            backgroundColor: dot.color,
+          }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: [0.24, 0.52, 0.28], y: [0, -6, 0] }}
+          transition={{
+            duration: 7,
+            delay: TITLE_DURATION + dot.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </>
+  );
+}
 
-              <h2 className="mt-8 text-[29px] font-extrabold leading-none tracking-[-0.035em]" style={{ color: BRAND.dark }}>
-                {card.title}
-              </h2>
-              <p className="mt-5 max-w-[315px] text-[18px] font-medium leading-[1.42]" style={{ color: BRAND.body }}>
-                {card.text}
-              </p>
-            </motion.article>
-          ))}
+function StepCard({ item, index }) {
+  return (
+    <motion.div
+      className="relative flex h-[188px] flex-col justify-between overflow-hidden rounded-[1.45rem] border border-white bg-white/92 px-6 py-6 backdrop-blur-sm"
+      style={{
+        boxShadow: `0 18px 38px rgba(35,43,58,0.08), 0 0 30px ${item.accent}18`,
+      }}
+      initial={{ opacity: 0, y: 18, scale: 0.96, filter: "blur(10px)" }}
+      animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.58,
+        delay: CONTENT_DELAY + 0.28 + index * 0.12,
+        ease: EASE_OUT,
+      }}
+    >
+      <span
+        className="absolute -right-10 -top-10 h-[112px] w-[112px] rounded-full"
+        style={{ background: `${item.accent}20` }}
+      />
+
+      <div className="relative flex items-center justify-between">
+        <span
+          className="text-[0.68rem] font-black uppercase leading-none tracking-[0.16em]"
+          style={{ color: item.accent }}
+        >
+          {item.number}
+        </span>
+
+        <span
+          className="h-3 w-12 rounded-full"
+          style={{
+            background: `linear-gradient(90deg, ${item.accent}, rgba(255,255,255,0.72))`,
+          }}
+        />
+      </div>
+
+      <div className="relative">
+        <h3 className="text-[1.5rem] font-black leading-none tracking-normal" style={{ color: INK }}>
+          {item.title}
+        </h3>
+
+        <p className="mt-3 text-[0.88rem] font-semibold leading-[1.35]" style={{ color: BODY }}>
+          {item.detail}
+        </p>
+      </div>
+
+      <div className="relative rounded-full px-4 py-2" style={{ background: `${item.accent}22` }}>
+        <span className="text-[0.68rem] font-black uppercase leading-none tracking-[0.12em]" style={{ color: INK }}>
+          {item.stat}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+function VisitanteBoard() {
+  return (
+    <motion.div
+      className="absolute left-1/2 top-[31%] z-20 w-[1010px] overflow-hidden rounded-[2rem] border border-white/80 bg-white/58 px-8 py-7 backdrop-blur-[14px]"
+      style={{ boxShadow: "0 26px 70px rgba(35,43,58,0.08)" }}
+      initial={{ opacity: 0, x: "-50%", y: 24, scale: 0.98, filter: "blur(12px)" }}
+      animate={{ opacity: 1, x: "-50%", y: 0, scale: 1, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.7,
+        delay: CONTENT_DELAY + 0.08,
+        ease: EASE_OUT,
+      }}
+    >
+
+      <div className="relative z-10 mb-6 flex items-end justify-between gap-8">
+        <div>
+          <p className="text-[0.76rem] font-black uppercase leading-none tracking-[0.18em]" style={{ color: CYAN }}>
+            Visitante
+          </p>
+
+          <h2 className="mt-3 text-[2.05rem] font-black leading-[1.02] tracking-normal" style={{ color: INK }}>
+            La accion sostenible se vuelve recompensa.
+          </h2>
+        </div>
+
+        <div className="shrink-0 rounded-full px-5 py-3" style={{ background: "rgba(177,220,107,0.26)" }}>
+          <span className="text-[0.72rem] font-black uppercase leading-none tracking-[0.14em]" style={{ color: GREEN }}>
+            Huellas Layo
+          </span>
         </div>
       </div>
+
+      <div className="relative z-10 grid grid-cols-3 gap-5">
+        {steps.map((item, index) => (
+          <StepCard key={item.title} item={item} index={index} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function Slide08Component() {
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      <Slide08Decor />
+
+      <motion.img
+        src={visitanteTitle}
+        alt="Visitante"
+        className="absolute left-1/2 top-1/2 z-30 w-[900px] max-w-none select-none"
+        style={{ transformOrigin: "center center" }}
+        initial={{
+          x: "-50%",
+          y: "-50%",
+          scale: 0.78,
+          opacity: 0,
+          filter: "blur(10px)",
+        }}
+        animate={{
+          x: ["-50%", "-50%", "-50%"],
+          y: ["-50%", "-50%", "-92%"],
+          scale: [0.78, 1, 0.48],
+          opacity: [0, 1, 1],
+          filter: [
+            "blur(10px) drop-shadow(0 0 0 rgba(33, 74, 24, 0))",
+            "blur(0px) drop-shadow(0 34px 60px rgba(33, 74, 24, 0.22))",
+            "blur(0px) drop-shadow(0 26px 44px rgba(33, 74, 24, 0.18))",
+          ],
+        }}
+        transition={{
+          duration: TITLE_DURATION,
+          times: [0, 0.36, 1],
+          ease: EASE_OUT,
+        }}
+      />
+
+      <VisitanteBoard />
     </div>
-  );
-}
-
-function Icon({ type, color }) {
-  return (
-    <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/75 bg-white/55 shadow-[0_14px_30px_rgba(20,20,40,0.08)]">
-      {type === "gears" ? <GearsIcon color={color} /> : null}
-      {type === "shield" ? <ShieldIcon color={color} /> : null}
-      {type === "network" ? <NetworkIcon color={color} /> : null}
-    </div>
-  );
-}
-
-function GearsIcon({ color }) {
-  return (
-    <svg width="40" height="40" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-      <circle cx="13" cy="20" r="5.5" stroke={color} strokeWidth="2.2" />
-      <path d="M13 11.5V8.8M13 31.2v-2.7M21.5 20h2.7M1.8 20h2.7M19 14l1.9-1.9M5.1 27.9 7 26M19 26l1.9 1.9M5.1 12.1 7 14" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="24.2" cy="9.8" r="3.5" stroke={color} strokeWidth="1.9" opacity="0.72" />
-      <path d="M24.2 4.5V3M24.2 16.6v-1.5M29.5 9.8H31M17.4 9.8h1.5M28 6l1.1-1.1M19.3 14.7l1.1-1.1M28 13.6l1.1 1.1M19.3 4.9l1.1 1.1" stroke={color} strokeWidth="1.8" strokeLinecap="round" opacity="0.72" />
-    </svg>
-  );
-}
-
-function ShieldIcon({ color }) {
-  return (
-    <svg width="40" height="40" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-      <path d="M17 4.4 27.2 8.7v7.5c0 6.4-4 11.7-10.2 14.5C10.8 27.9 6.8 22.6 6.8 16.2V8.7L17 4.4z" stroke={color} strokeWidth="2.3" strokeLinejoin="round" />
-      <path d="m12.4 17.1 3 3 6.4-7" stroke={color} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function NetworkIcon({ color }) {
-  return (
-    <svg width="40" height="40" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-      <path d="M17 9.2 9.8 14v8l7.2 4.8 7.2-4.8v-8L17 9.2z" stroke={color} strokeWidth="2" strokeLinejoin="round" />
-      <path d="M17 9.2v17.6M9.8 14l14.4 8M24.2 14 9.8 22" stroke={color} strokeWidth="1.8" strokeLinecap="round" opacity="0.7" />
-      <circle cx="17" cy="8" r="3" fill="#f7f7f9" stroke={color} strokeWidth="2" />
-      <circle cx="8.5" cy="14" r="3" fill="#f7f7f9" stroke={color} strokeWidth="2" />
-      <circle cx="25.5" cy="14" r="3" fill="#f7f7f9" stroke={color} strokeWidth="2" />
-      <circle cx="8.5" cy="23" r="3" fill="#f7f7f9" stroke={color} strokeWidth="2" />
-      <circle cx="25.5" cy="23" r="3" fill="#f7f7f9" stroke={color} strokeWidth="2" />
-    </svg>
   );
 }
 
 export default createSlide({
   id: "slide08",
-  title: "Retorno de inversión en tres dimensiones",
   layout: {
-    padding: "pt-[5.2%] pb-[54px]",
+    padding: "pt-[5.2%] pb-[24px]",
   },
   Component: Slide08Component,
 });

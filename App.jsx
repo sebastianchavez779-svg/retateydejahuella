@@ -1,6 +1,7 @@
-import React, { startTransition, useEffect, useState } from "react";
+import React, { startTransition, useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SlideFrame from "./slides/SlideFrame";
+import TechPresentationBackground from "./slides/shared/TechPresentationBackground";
 import { slides, validateSlides } from "./slides";
 import { BRAND } from "./presentationConfig";
 import { usePresentation } from "./usePresentation";
@@ -17,12 +18,25 @@ function getViewportSize() {
   return { width: window.innerWidth, height: window.innerHeight };
 }
 
+function isTypingTarget(element) {
+  if (!element) return false;
+  const tagName = element.tagName?.toLowerCase();
+  return element.isContentEditable || tagName === "input" || tagName === "textarea" || tagName === "select";
+}
+
 export default function Presentation() {
   const { current, next, prev, goTo } = usePresentation(slides.length);
   const [viewport, setViewport] = useState(getViewportSize);
+  const [slide02Phase, setSlide02Phase] = useState("idle");
   const slide = slides[current];
 
   useEffect(() => validateSlides(), []);
+
+  useEffect(() => {
+    if (slide.id !== "slide02") {
+      setSlide02Phase("idle");
+    }
+  }, [slide.id]);
 
   useEffect(() => {
     function handleResize() {
@@ -44,6 +58,45 @@ export default function Presentation() {
   const stageScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
   const scaledWidth = STAGE_WIDTH * stageScale;
   const scaledHeight = STAGE_HEIGHT * stageScale;
+  const slidePhase = slide.id === "slide02" ? slide02Phase : "idle";
+
+  const handleNext = useCallback(() => {
+    if (slide.id === "slide02" && slide02Phase === "idle") {
+      setSlide02Phase("filled");
+      return;
+    }
+
+    if (slide.id === "slide02" && slide02Phase === "filled") {
+      setSlide02Phase("interest");
+      return;
+    }
+
+    if (slide.id === "slide02" && slide02Phase === "interest") {
+      setSlide02Phase("blue");
+      return;
+    }
+
+    next();
+  }, [next, slide.id, slide02Phase]);
+
+  useEffect(() => {
+    function onKeyDown(event) {
+      if (isTypingTarget(event.target)) return;
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        handleNext();
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        prev();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleNext, prev]);
 
   return (
     <div className="flex min-h-screen items-center justify-center overflow-hidden bg-[#eef0f4]" style={{ padding: VIEWPORT_PADDING }}>
@@ -63,22 +116,7 @@ export default function Presentation() {
             transformOrigin: "top left",
           }}
         >
-          {!isFullScene && (
-            <>
-              <div
-                className="pointer-events-none absolute -left-32 -top-32 h-[300px] w-[300px] blur-[90px]"
-                style={{ background: "radial-gradient(circle, rgba(115,0,225,0.35), transparent)" }}
-              />
-              <div
-                className="pointer-events-none absolute -bottom-32 -right-32 h-[300px] w-[300px] blur-[90px]"
-                style={{ background: "radial-gradient(circle, rgba(74,191,255,0.35), transparent)" }}
-              />
-              <div
-                className="pointer-events-none absolute -right-20 top-1/3 h-[200px] w-[200px] blur-[80px]"
-                style={{ background: "radial-gradient(circle, rgba(255,199,64,0.4), transparent)" }}
-              />
-            </>
-          )}
+          <TechPresentationBackground animateTopWaves={slide.id === "slide01"} />
 
           <AnimatePresence mode="wait" initial={false}>
             <motion.section
@@ -89,7 +127,7 @@ export default function Presentation() {
               transition={{ duration: 0.42, ease: "easeOut" }}
               className="absolute inset-0 z-10"
             >
-              <SlideFrame slide={slide} />
+              <SlideFrame slide={slide} slidePhase={slidePhase} />
             </motion.section>
           </AnimatePresence>
 
@@ -106,7 +144,7 @@ export default function Presentation() {
             </button>
             <button
               type="button"
-              onClick={next}
+              onClick={handleNext}
               aria-label="Siguiente slide"
               className="pointer-events-auto flex h-7 w-7 items-center justify-center rounded-full border border-white/50 bg-white/40 opacity-60 shadow-[0_10px_24px_rgba(20,20,40,0.10)] backdrop-blur-2xl transition-all duration-300 hover:translate-x-1 hover:scale-105 hover:bg-white/70 hover:opacity-100 focus:outline-none"
             >
@@ -132,7 +170,7 @@ export default function Presentation() {
                     width: index === current ? 28 : 8,
                     background:
                       index === current
-                        ? "linear-gradient(90deg, rgba(115,0,225,0.80), rgba(74,191,255,0.80))"
+                        ? "linear-gradient(90deg, #B1DC6B, #53DBFF)"
                         : "rgba(191,191,191,0.60)",
                   }}
                 />

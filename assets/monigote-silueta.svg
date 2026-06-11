@@ -1,0 +1,13 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="monoStroke" x1="72" y1="44" x2="246" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#53DBFF" />
+      <stop offset="1" stop-color="#B1DC6B" />
+    </linearGradient>
+  </defs>
+  <circle cx="160" cy="78" r="30" stroke="url(#monoStroke)" stroke-width="16" />
+  <path d="M160 112V208" stroke="url(#monoStroke)" stroke-width="18" stroke-linecap="round" />
+  <path d="M105 154L160 136L215 154" stroke="url(#monoStroke)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M125 272L160 208L195 272" stroke="url(#monoStroke)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="160" cy="78" r="10" fill="#F7F7F9" />
+</svg>

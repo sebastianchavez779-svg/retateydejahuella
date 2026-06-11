@@ -1,289 +1,253 @@
-import { useEffect, useState } from "react";
-import { animate, motion, useAnimationControls, useMotionValue, useMotionValueEvent } from "framer-motion";
-import { BRAND, styles } from "../presentationConfig";
+import { AnimatePresence, motion } from "framer-motion";
+import { BRAND } from "../presentationConfig";
+import personSilhouette from "../assets/person-silhouette.png";
+import publicoBannerUltraUrl from "../assets/fonts/PublicoBanner-Ultra.otf";
 import { createSlide } from "./shared/createSlide";
 
-const DONUT_ENTRY = {
-  duration: 0.78,
-  ease: [0.22, 1, 0.36, 1],
-};
+const PEOPLE_COUNT = 10;
+const QUESTION_WORD_STAGGER = 0.26;
+const QUESTION_LIFT_DELAY = 3.05;
+const QUESTION_LIFT_DURATION = 0.68;
+const PEOPLE_DELAY = QUESTION_LIFT_DELAY + QUESTION_LIFT_DURATION + 0.18;
+const PEOPLE_STAGGER = 0.08;
+const PERSON_PULSE_START = PEOPLE_DELAY + PEOPLE_COUNT * PEOPLE_STAGGER + 0.45;
+const PERSON_PULSE_STAGGER = 0.16;
+const PERSON_PULSE_DURATION = 0.36;
+const SUSTAINABLE_GREEN = "#B1DC6B";
+const INTEREST_BLUE = "#53DBFF";
+const BLUE_FILL_DURATION = 0.95;
+const BLUE_FILL_STAGGER = 0.22;
+const OPPORTUNITY_DELAY = (6 - 3) * BLUE_FILL_STAGGER + BLUE_FILL_DURATION + 0.12;
+const QUESTION_WORDS = [
+  { text: "¿Cuántas" },
+  { text: "personas" },
+  { text: "realizan" },
+  { text: "acciones", color: SUSTAINABLE_GREEN },
+  { text: "sostenibles", color: SUSTAINABLE_GREEN },
+  { text: "en" },
+  { text: "su" },
+  { text: "día" },
+  { text: "a" },
+  { text: "día?" },
+];
+const INTEREST_QUESTION_WORDS = [
+  { text: "Pero..." },
+  { text: "¿A" },
+  { text: "cuántas" },
+  { text: "personas" },
+  { text: "les" },
+  { text: "interesa", color: INTEREST_BLUE },
+  { text: "la" },
+  { text: "sostenibilidad?" },
+];
 
-const DONUT_COUNT_DURATION = 3;
-const DONUT_ARC_BUILD_DURATION = 3;
-
-const DONUT_BREATHE = {
-  duration: 3.8,
-  repeat: 4,
-  ease: "easeInOut",
-  repeatDelay: 0.28,
-};
-
-const DONUT_SIZE = 234;
-const DONUT_STROKE = 28;
-const DONUT_RADIUS = (DONUT_SIZE - DONUT_STROKE) / 2;
-const DONUT_CENTER = DONUT_SIZE / 2;
-const DONUT_PERCENT = 0.04;
-const DONUT_CIRCUMFERENCE = 2 * Math.PI * DONUT_RADIUS;
-const DONUT_DASH = DONUT_CIRCUMFERENCE * DONUT_PERCENT;
-const DONUT_GAP = DONUT_CIRCUMFERENCE - DONUT_DASH;
-const DONUT_MIN_DASH = Math.max(DONUT_DASH * 0.18, 2);
-const DONUT_INITIAL_DASH = `${DONUT_MIN_DASH} ${DONUT_CIRCUMFERENCE}`;
-const DONUT_FINAL_DASH = `${DONUT_DASH} ${DONUT_GAP}`;
-
-function DonutMetric() {
-  const donutControls = useAnimationControls();
-  const arcControls = useAnimationControls();
-  const numberControls = useAnimationControls();
-  const countValue = useMotionValue(0);
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useMotionValueEvent(countValue, "change", (latest) => {
-    setDisplayValue(Math.max(0, Math.min(4, Math.round(latest))));
-  });
-
-  useEffect(() => {
-    let active = true;
-    let countAnimation;
-    let resolveCountAnimation = () => {};
-    const countDone = new Promise((resolve) => {
-      resolveCountAnimation = resolve;
-    });
-
-    donutControls.set({ opacity: 0, scale: 0.56, y: 10 });
-    arcControls.set({ strokeDasharray: DONUT_INITIAL_DASH });
-    numberControls.set({
-      opacity: 0,
-      scale: 0.78,
-      y: 10,
-      textShadow: "0 0 0 rgba(255,199,64,0)",
-    });
-    countValue.set(0);
-
-    countAnimation = animate(countValue, 4, {
-      duration: DONUT_COUNT_DURATION,
-      delay: 0.2,
-      ease: [0.16, 1, 0.3, 1],
-      onComplete: () => resolveCountAnimation(),
-    });
-
-    async function runSequence() {
-      await Promise.all([
-        donutControls.start({
-          opacity: 1,
-          scale: [0.56, 1.08, 1],
-          y: [10, -2, 0],
-          transition: { ...DONUT_ENTRY, delay: 0.12 },
-        }),
-        arcControls.start({
-          strokeDasharray: [DONUT_INITIAL_DASH, DONUT_FINAL_DASH],
-          transition: { duration: DONUT_ARC_BUILD_DURATION, delay: 0.18, ease: [0.16, 1, 0.3, 1] },
-        }),
-        numberControls.start({
-          opacity: 1,
-          scale: [0.78, 1.08, 1],
-          y: [10, -2, 0],
-          transition: { ...DONUT_ENTRY, delay: 0.14 },
-        }),
-        countDone,
-      ]);
-
-      if (!active) {
-        return;
-      }
-
-      await Promise.all([
-        donutControls.start({
-          scale: [1, 1.016, 1],
-          y: [0, -0.6, 0],
-          transition: DONUT_BREATHE,
-        }),
-        numberControls.start({
-          scale: [1, 1.018, 1],
-          y: [0, -0.6, 0],
-          textShadow: [
-            "0 0 0 rgba(255,199,64,0)",
-            "0 0 6px rgba(255,199,64,0.07)",
-            "0 0 0 rgba(255,199,64,0)",
-          ],
-          transition: DONUT_BREATHE,
-        }),
-      ]);
-
-      if (!active) {
-        return;
-      }
-
-      donutControls.set({ opacity: 1, scale: 1, y: 0 });
-      numberControls.set({
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        textShadow: "0 0 0 rgba(255,199,64,0)",
-      });
-    }
-
-    runSequence();
-
-    return () => {
-      active = false;
-      countAnimation?.stop();
-      donutControls.stop();
-      arcControls.stop();
-      numberControls.stop();
-    };
-  }, [arcControls, countValue, donutControls, numberControls]);
-
+function AccountingPerson({ index, fillActive, fillColor, fillDelay = 0, pulseActive }) {
   return (
-    <>
-      <motion.svg
-        className="absolute h-[234px] w-[234px]"
-        viewBox={`0 0 ${DONUT_SIZE} ${DONUT_SIZE}`}
-        aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.56, y: 10 }}
-        animate={donutControls}
-        style={{ overflow: "visible" }}
+    <motion.div
+      className="flex h-[190px] w-[100px] shrink-0 items-end justify-center"
+      aria-hidden="true"
+      initial={{ opacity: 0, y: 34, scale: 0.94 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 0.58,
+        delay: PEOPLE_DELAY + PEOPLE_STAGGER * index,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+    >
+      <motion.div
+        className="relative h-full aspect-[9/16] drop-shadow-[0_10px_7px_rgba(26,26,26,0.12)]"
+        style={{ transformOrigin: "center" }}
+        animate={pulseActive ? { y: [0, -9, 0], scale: [1, 1.08, 1] } : { y: 0, scale: 1 }}
+        transition={
+          pulseActive
+            ? {
+                duration: PERSON_PULSE_DURATION,
+                delay: PERSON_PULSE_START + index * PERSON_PULSE_STAGGER,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: PEOPLE_COUNT * PERSON_PULSE_STAGGER - PERSON_PULSE_DURATION,
+              }
+            : {
+                duration: 0.22,
+                ease: "easeOut",
+              }
+        }
       >
-        <motion.circle
-          cx={DONUT_CENTER}
-          cy={DONUT_CENTER}
-          r={DONUT_RADIUS}
-          fill="none"
-          stroke="rgba(255,199,64,0.24)"
-          strokeWidth={DONUT_STROKE + 5}
-          strokeLinecap="round"
-          transform={`rotate(-90 ${DONUT_CENTER} ${DONUT_CENTER})`}
-          strokeDasharray={DONUT_INITIAL_DASH}
-          style={{ filter: "blur(4px)" }}
+        <motion.img
+          src={personSilhouette}
+          alt=""
+          className="absolute inset-0 h-full w-full object-contain"
           initial={false}
-          animate={arcControls}
+          animate={{ opacity: fillActive ? 0 : 1 }}
+          transition={{
+            duration: 0.18,
+            delay: fillActive ? fillDelay + 1.08 : 0,
+            ease: "easeOut",
+          }}
         />
-        <motion.circle
-          cx={DONUT_CENTER}
-          cy={DONUT_CENTER}
-          r={DONUT_RADIUS}
-          fill="none"
-          stroke={BRAND.yellowText}
-          strokeWidth={DONUT_STROKE}
-          strokeLinecap="round"
-          transform={`rotate(-90 ${DONUT_CENTER} ${DONUT_CENTER})`}
-          strokeDasharray={DONUT_INITIAL_DASH}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0"
+          style={{
+            backgroundColor: fillColor,
+            WebkitMaskImage: `url(${personSilhouette})`,
+            maskImage: `url(${personSilhouette})`,
+            WebkitMaskPosition: "center",
+            maskPosition: "center",
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+            WebkitMaskSize: "100% 100%",
+            maskSize: "100% 100%",
+          }}
           initial={false}
-          animate={arcControls}
+          animate={{ height: fillActive ? "100%" : "0%" }}
+          transition={{
+            duration: 0.95,
+            delay: fillActive ? fillDelay : 0,
+            ease: [0.16, 1, 0.3, 1],
+          }}
         />
-      </motion.svg>
-      <motion.span
-        className="absolute tabular-nums text-[5rem] font-bold leading-none tracking-[-0.06em]"
-        style={{ color: BRAND.yellowText }}
-        initial={{ opacity: 0, scale: 0.78, y: 10 }}
-        animate={numberControls}
-      >
-        {displayValue}%
-      </motion.span>
-    </>
+      </motion.div>
+    </motion.div>
   );
 }
 
-function Slide02Component({ slide }) {
+function Slide02Component({ slidePhase }) {
+  const isFillPhase = slidePhase === "filled" || slidePhase === "interest" || slidePhase === "blue";
+  const isInterestPhase = slidePhase === "interest" || slidePhase === "blue";
+  const activeQuestionWords = isInterestPhase ? INTEREST_QUESTION_WORDS : QUESTION_WORDS;
+
   return (
-    <div className="flex h-full flex-col">
-      <h1
-        className="max-w-[860px] text-[3.5rem] font-bold leading-[1.02] tracking-[-0.04em]"
-        style={{ color: BRAND.purple }}
+    <div className="relative h-full">
+      <style>
+        {`
+          @font-face {
+            font-family: "PublicoBannerUltra";
+            src: url("${publicoBannerUltraUrl}") format("opentype");
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+          }
+        `}
+      </style>
+
+      <motion.div
+        className="absolute left-0 right-0 top-[40%] flex -translate-y-1/2 justify-center"
+        initial={{ y: 0 }}
+        animate={{ y: -160 }}
+        transition={{
+          duration: QUESTION_LIFT_DURATION,
+          delay: QUESTION_LIFT_DELAY,
+          ease: [0.16, 1, 0.3, 1],
+        }}
       >
-        {slide.title}
-      </h1>
+        <AnimatePresence mode="wait">
+          <motion.h1
+            key={isInterestPhase ? "interest-question" : "daily-question"}
+            className="max-w-[1080px] text-center text-[3.8rem] font-bold leading-[1.02] tracking-[-0.03em]"
+            style={{ color: BRAND.dark }}
+            initial={isInterestPhase ? { opacity: 0, x: -70, filter: "blur(7px)" } : "hidden"}
+            animate={isInterestPhase ? { opacity: 1, x: 0, filter: "blur(0px)" } : "visible"}
+            exit={{ opacity: 0, x: 180, filter: "blur(8px)" }}
+            transition={
+              isInterestPhase
+                ? { duration: 0.58, ease: [0.16, 1, 0.3, 1] }
+                : undefined
+            }
+            variants={
+              isInterestPhase
+                ? undefined
+                : {
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: QUESTION_WORD_STAGGER,
+                        delayChildren: 0.12,
+                      },
+                    },
+                  }
+            }
+          >
+            {activeQuestionWords.map((word, index) => (
+              <motion.span
+                key={`${word.text}-${index}`}
+                className="inline-block"
+                style={{ color: word.color ?? "inherit" }}
+                variants={
+                  isInterestPhase
+                    ? undefined
+                    : {
+                        hidden: { opacity: 0, y: 18, filter: "blur(7px)" },
+                        visible: {
+                          opacity: 1,
+                          y: 0,
+                          filter: "blur(0px)",
+                          transition: {
+                            duration: 0.48,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        },
+                      }
+                }
+              >
+                {word.text}
+                {index < activeQuestionWords.length - 1 ? "\u00A0" : ""}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </AnimatePresence>
+      </motion.div>
 
-      <div className="flex flex-1 items-center justify-center">
-        <div className="grid w-full max-w-[940px] grid-cols-[296px_492px] items-center justify-center gap-8 translate-y-3">
-          <div className="relative flex h-[286px] items-center justify-center">
-            <div
-              className="absolute h-[248px] w-[248px] rounded-full blur-[38px]"
-              style={{ background: "radial-gradient(circle, rgba(255,199,64,0.26), rgba(115,0,225,0.10), transparent 70%)" }}
+      <div className="absolute bottom-[124px] left-1/2 flex w-full max-w-[1160px] -translate-x-1/2 items-end justify-center gap-1">
+        {Array.from({ length: PEOPLE_COUNT }, (_, index) => {
+          const isGreen = isFillPhase && index < 3;
+          const isBlue = slidePhase === "blue" && index >= 3 && index <= 6;
+          const fillActive = isGreen || isBlue;
+
+          return (
+            <AccountingPerson
+              key={index}
+              index={index}
+              fillActive={fillActive}
+              fillColor={isBlue ? INTEREST_BLUE : SUSTAINABLE_GREEN}
+              fillDelay={isBlue ? (index - 3) * BLUE_FILL_STAGGER : index * 0.22}
+              pulseActive={slidePhase === "idle" || (slidePhase === "interest" && index >= 3)}
             />
-            <div className="relative flex h-[274px] w-[274px] items-center justify-center">
-              <svg
-                className="absolute h-[234px] w-[234px]"
-                viewBox={`0 0 ${DONUT_SIZE} ${DONUT_SIZE}`}
-                aria-hidden="true"
-              >
-                <circle
-                  cx={DONUT_CENTER}
-                  cy={DONUT_CENTER}
-                  r={DONUT_RADIUS}
-                  fill="none"
-                  stroke="rgba(191,191,191,0.16)"
-                  strokeWidth={DONUT_STROKE}
-                />
-              </svg>
-              <div className="absolute h-[180px] w-[180px] rounded-full bg-[#f7f7f9]" />
-              <DonutMetric />
-              <span
-                className="absolute mt-[92px] text-[11px] font-semibold uppercase tracking-[0.18em]"
-                style={{ color: BRAND.muted }}
-              >
-                usa IA
-              </span>
-            </div>
-          </div>
-
-          <div className="w-full rounded-[1.35rem] border border-white/55 bg-white/40 p-6 shadow-[0_22px_55px_rgba(20,20,40,0.08)] backdrop-blur-[28px]">
-            <div className="flex items-start gap-4">
-              <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-white/35"
-                style={{ borderColor: "rgba(115,0,225,0.15)" }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M6 18V9" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" />
-                  <path d="M12 18V5" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" />
-                  <path d="M18 18v-7" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" />
-                  <path d="M4 18h16" stroke={BRAND.purple} strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
-
-              <div className="space-y-3.5">
-                <p className={styles.label} style={{ color: "rgba(115,0,225,0.75)" }}>
-                  El resultado
-                </p>
-                <p className="text-[17px] leading-7" style={{ color: BRAND.body }}>
-                  Procesos altamente manuales, lentitud operativa y equipos contables consumiendo hasta{" "}
-                  <span className="font-bold" style={{ color: BRAND.yellowText }}>
-                    120 horas al mes
-                  </span>{" "}
-                  en tareas sin valor agregado.
-                </p>
-                <div
-                  className="mt-1 h-1.5 overflow-hidden rounded-full"
-                  style={{ backgroundColor: "rgba(191,191,191,0.25)" }}
-                >
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: "linear-gradient(90deg, rgba(115,0,225,0.70), rgba(74,191,255,0.65), rgba(255,199,64,0.75))" }}
-                    initial={{ width: 0 }}
-                    animate={{ width: "82%" }}
-                    transition={{ duration: 0.85, delay: 0.45, ease: "easeOut" }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
 
-      <p
-        className="mb-[58px] max-w-[700px] text-[16px] font-medium leading-[1.65]"
-        style={{ color: "rgba(74,74,74,0.78)" }}
-      >
-        {slide.footer}
-      </p>
+      <AnimatePresence>
+        {slidePhase === "blue" ? (
+          <div className="absolute left-1/2 top-[258px] z-20 -translate-x-1/2">
+            <motion.div
+              className="text-[2.45rem] font-black uppercase leading-none tracking-[0.1em]"
+              style={{
+                color: INTEREST_BLUE,
+                fontFamily: "PublicoBannerUltra, Impact, Haettenschweiler, 'Arial Black', sans-serif",
+              }}
+              initial={{ opacity: 0, scale: 0.35, y: 42, rotate: -7, filter: "blur(8px)" }}
+              animate={{ opacity: 1, scale: [1.28, 0.92, 1], y: 0, rotate: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.9, y: -18 }}
+              transition={{
+                delay: OPPORTUNITY_DELAY,
+                duration: 0.58,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              OPORTUNIDAD
+            </motion.div>
+          </div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
 
 export default createSlide({
   id: "slide02",
-  title: "Adopci\u00f3n de IA en contabilidad",
-  subtitle: "Solo el 4% de las empresas en Per\u00fa utiliza inteligencia artificial en el \u00e1rea contable (EY 2025).",
-  footer: "Solo el 4% de las empresas en Per\u00fa utiliza inteligencia artificial en el \u00e1rea contable (EY 2025).",
+  title: "",
+  subtitle: "",
+  footer: "",
   layout: {
     padding: "pt-[5.2%] pb-[24px]",
   },

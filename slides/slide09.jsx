@@ -1,174 +1,231 @@
 import { motion } from "framer-motion";
-import { BRAND } from "../presentationConfig";
+import locatariosTitle from "../assets/slide09-locatarios-title.png";
 import { createSlide } from "./shared/createSlide";
 
-const areas = [
-  { label: "Gestión Inmobiliaria", x: 190, y: 96, tone: BRAND.blue },
-  { label: "Comercial", x: 634, y: 94, tone: BRAND.yellow },
-  { label: "Gestión Humana", x: 166, y: 250, tone: BRAND.purple },
-  { label: "Operaciones", x: 656, y: 254, tone: BRAND.blue },
-  { label: "DyC", x: 410, y: 308, tone: BRAND.yellow },
+const TITLE_DURATION = 2.05;
+const CONTENT_DELAY = TITLE_DURATION - 0.02;
+const EASE_OUT = [0.16, 1, 0.3, 1];
+
+const LIME = "#B1DC6B";
+const GREEN = "#3D9D23";
+const CYAN = "#53DBFF";
+const BLUE = "#17AEEA";
+const INK = "#26322E";
+const BODY = "rgba(38,50,46,0.66)";
+
+const benefits = [
+  {
+    number: "01",
+    title: "Mas visibilidad",
+    detail: "El locatario aparece como Tienda Verde Layo dentro del ecosistema.",
+    accent: GREEN,
+  },
+  {
+    number: "02",
+    title: "Mas trafico",
+    detail: "Los visitantes encuentran razones concretas para acercarse a la tienda.",
+    accent: CYAN,
+  },
+  {
+    number: "03",
+    title: "Mas ventas",
+    detail: "Las huellas activan canjes, promociones y preferencia de compra.",
+    accent: BLUE,
+  },
 ];
 
-function Slide09Component({ slide }) {
+function Slide09Decor() {
+  const dots = [
+    { left: "14%", top: "30%", size: 8, color: LIME, delay: 0.1 },
+    { left: "84%", top: "30%", size: 6, color: CYAN, delay: 0.42 },
+    { left: "20%", top: "75%", size: 6, color: CYAN, delay: 0.74 },
+    { left: "79%", top: "76%", size: 8, color: LIME, delay: 1.04 },
+  ];
+
   return (
-    <div className="relative flex h-full flex-col overflow-hidden">
-      <h1
-        className="relative z-10 max-w-[860px] text-[3.5rem] font-bold leading-[1.02] tracking-[-0.04em]"
-        style={{ color: BRAND.purple }}
-      >
-        {slide.title}
-      </h1>
+    <>
+      <motion.div
+        className="absolute left-[9%] top-[35%] z-0 h-[220px] w-[220px] rounded-full blur-[78px]"
+        style={{ background: "rgba(177,220,107,0.16)" }}
+        initial={{ opacity: 0, scale: 0.86 }}
+        animate={{ opacity: [0.12, 0.24, 0.12], scale: [1, 1.08, 1] }}
+        transition={{
+          duration: 12,
+          delay: TITLE_DURATION + 0.24,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-      <div className="relative z-10 flex flex-1 items-center justify-center">
-        <IntelligenceCore />
-      </div>
+      <motion.div
+        className="absolute right-[9%] top-[38%] z-0 h-[236px] w-[236px] rounded-full blur-[82px]"
+        style={{ background: "rgba(83,219,255,0.15)" }}
+        initial={{ opacity: 0, scale: 0.86 }}
+        animate={{ opacity: [0.1, 0.22, 0.1], scale: [1, 1.08, 1] }}
+        transition={{
+          duration: 13,
+          delay: TITLE_DURATION + 0.52,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
-      <p
-        className="relative z-10 mb-[58px] max-w-[900px] text-[16px] font-medium leading-[1.65]"
-        style={{ color: "rgba(74,74,74,0.78)" }}
-      >
-        {slide.footer}
-      </p>
-    </div>
-  );
-}
-
-function IntelligenceCore() {
-  return (
-    <div className="relative h-[340px] w-[820px] -translate-y-3">
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 820 340" fill="none" aria-hidden="true">
-        <defs>
-          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#7300E1" stopOpacity="0.42" />
-            <stop offset="52%" stopColor="#4ABFFF" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="410" cy="178" r="142" fill="url(#coreGlow)" opacity="0.72" />
-        <motion.circle
-          cx="410"
-          cy="178"
-          r="112"
-          fill="none"
-          stroke="rgba(115,0,225,0.14)"
-          strokeWidth="1.4"
-          strokeDasharray="8 12"
-          initial={{ rotate: 0, pathLength: 0, opacity: 0 }}
-          animate={{ rotate: 360, pathLength: 1, opacity: 1 }}
-          transition={{ rotate: { duration: 20, repeat: Infinity, ease: "linear" }, pathLength: { duration: 1.1, delay: 0.3 } }}
-          style={{ transformOrigin: "410px 178px" }}
+      {dots.map((dot) => (
+        <motion.span
+          key={`${dot.left}-${dot.top}`}
+          className="absolute z-0 rounded-full"
+          style={{
+            left: dot.left,
+            top: dot.top,
+            width: dot.size,
+            height: dot.size,
+            backgroundColor: dot.color,
+          }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: [0.24, 0.52, 0.28], y: [0, -6, 0] }}
+          transition={{
+            duration: 7,
+            delay: TITLE_DURATION + dot.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-        <motion.circle
-          cx="410"
-          cy="178"
-          r="70"
-          fill="none"
-          stroke="rgba(74,191,255,0.22)"
-          strokeWidth="1.2"
-          strokeDasharray="5 10"
-          initial={{ rotate: 0, pathLength: 0, opacity: 0 }}
-          animate={{ rotate: -360, pathLength: 1, opacity: 1 }}
-          transition={{ rotate: { duration: 16, repeat: Infinity, ease: "linear" }, pathLength: { duration: 1, delay: 0.42 } }}
-          style={{ transformOrigin: "410px 178px" }}
-        />
-
-        {areas.map((area, index) => (
-          <motion.path
-            key={area.label}
-            d={pathTo(area.x, area.y)}
-            stroke={area.tone}
-            strokeOpacity="0.30"
-            strokeWidth="1.45"
-            strokeLinecap="round"
-            fill="none"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.75, delay: 0.48 + index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-          />
-        ))}
-
-        {areas.map((area, index) => (
-          <motion.circle
-            key={`${area.label}-spark`}
-            cx={area.x}
-            cy={area.y}
-            r="3.5"
-            fill={area.tone}
-            initial={{ opacity: 0, scale: 0.4 }}
-            animate={{ opacity: [0.35, 1, 0.35], scale: [0.8, 1.35, 0.8] }}
-            transition={{ duration: 2.2, delay: 0.9 + index * 0.14, repeat: Infinity, ease: "easeInOut" }}
-          />
-        ))}
-      </svg>
-
-      <div className="absolute left-1/2 top-[178px] z-20 h-[154px] w-[154px] -translate-x-1/2 -translate-y-1/2">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.82, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.62, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex h-full w-full flex-col items-center justify-center rounded-full border border-white/75 bg-white/60 text-center shadow-[0_28px_80px_rgba(80,20,180,0.20)] backdrop-blur-2xl"
-        >
-        <div
-          className="absolute inset-3 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(255,255,255,0.86), rgba(115,0,225,0.08), rgba(74,191,255,0.08))" }}
-        />
-        <p className="relative z-10 text-[44px] font-black leading-none tracking-[-0.06em]" style={{ color: BRAND.purple }}>
-          GIA
-        </p>
-        <p className="relative z-10 mt-2 max-w-[106px] text-[8px] font-bold uppercase leading-[1.25] tracking-[0.09em]" style={{ color: BRAND.body }}>
-          Asistente inteligente para la operación
-        </p>
-        </motion.div>
-      </div>
-
-      {areas.map((area, index) => (
-        <OrgNode key={area.label} area={area} index={index} />
       ))}
-    </div>
+    </>
   );
 }
 
-function OrgNode({ area, index }) {
+function BenefitCard({ item, index }) {
   return (
-    <div
-      className="absolute z-30"
+    <motion.div
+      className="relative flex h-[172px] flex-col justify-between overflow-hidden rounded-[1.45rem] border border-white bg-white/86 px-6 py-6 backdrop-blur-sm"
       style={{
-        left: area.x,
-        top: area.y,
-        transform: "translate(-50%, -50%)",
+        boxShadow: `0 18px 38px rgba(35,43,58,0.08), 0 0 30px ${item.accent}18`,
+      }}
+      initial={{ opacity: 0, y: 18, scale: 0.96, filter: "blur(10px)" }}
+      animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.58,
+        delay: CONTENT_DELAY + 0.28 + index * 0.12,
+        ease: EASE_OUT,
       }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 12, scale: 0.94 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.46, delay: 0.72 + index * 0.09, ease: [0.16, 1, 0.3, 1] }}
-        className="flex items-center gap-3 rounded-full border border-white/70 bg-white/62 py-3 pl-3 pr-5 shadow-[0_16px_36px_rgba(20,20,40,0.08)] backdrop-blur-2xl"
-      >
-        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full" style={{ background: area.tone }}>
-          <span className="absolute inset-0 rounded-full opacity-30 blur-md" style={{ background: area.tone }} />
-          <span className="relative h-2 w-2 rounded-full bg-white" />
+      <span
+        className="absolute -right-10 -top-10 h-[112px] w-[112px] rounded-full"
+        style={{ background: `${item.accent}20` }}
+      />
+
+      <div className="relative flex items-center justify-between">
+        <span
+          className="text-[0.68rem] font-black uppercase leading-none tracking-[0.16em]"
+          style={{ color: item.accent }}
+        >
+          {item.number}
         </span>
-        <span className="whitespace-nowrap text-[13px] font-extrabold leading-none tracking-[-0.015em]" style={{ color: BRAND.dark }}>
-          {area.label}
-        </span>
-      </motion.div>
-    </div>
+
+        <span
+          className="h-3 w-12 rounded-full"
+          style={{
+            background: `linear-gradient(90deg, ${item.accent}, rgba(255,255,255,0.72))`,
+          }}
+        />
+      </div>
+
+      <div className="relative">
+        <h3 className="text-[1.52rem] font-black leading-none tracking-normal" style={{ color: INK }}>
+          {item.title}
+        </h3>
+
+        <p className="mt-3 text-[0.9rem] font-semibold leading-[1.35]" style={{ color: BODY }}>
+          {item.detail}
+        </p>
+      </div>
+    </motion.div>
   );
 }
 
-function pathTo(x, y) {
-  const cx = 410;
-  const cy = 178;
-  const midX = (cx + x) / 2;
-  const curve = y < cy ? -42 : 42;
-  return `M ${cx} ${cy} C ${midX} ${cy + curve}, ${midX} ${y - curve}, ${x} ${y}`;
+function LocatariosBoard() {
+  return (
+    <motion.div
+      className="absolute left-1/2 top-[31%] z-20 w-[1010px] rounded-[2rem] border border-white/80 bg-white/62 px-8 py-7 backdrop-blur-[14px]"
+      style={{ boxShadow: "0 26px 70px rgba(35,43,58,0.08)" }}
+      initial={{ opacity: 0, x: "-50%", y: 24, scale: 0.98, filter: "blur(12px)" }}
+      animate={{ opacity: 1, x: "-50%", y: 0, scale: 1, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.7,
+        delay: CONTENT_DELAY + 0.08,
+        ease: EASE_OUT,
+      }}
+    >
+      <div className="mb-6 flex items-end justify-between gap-8">
+        <div>
+          <p className="text-[0.76rem] font-black uppercase leading-none tracking-[0.18em]" style={{ color: CYAN }}>
+            Locatarios
+          </p>
+
+          <h2 className="mt-3 text-[2.05rem] font-black leading-[1.02] tracking-normal" style={{ color: INK }}>
+            La sostenibilidad se convierte en negocio.
+          </h2>
+        </div>
+
+        <div className="shrink-0 rounded-full px-5 py-3" style={{ background: "rgba(177,220,107,0.26)" }}>
+          <span className="text-[0.72rem] font-black uppercase leading-none tracking-[0.14em]" style={{ color: GREEN }}>
+            Tienda Verde Layo
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-5">
+        {benefits.map((item, index) => (
+          <BenefitCard key={item.title} item={item} index={index} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function Slide09Component() {
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      <Slide09Decor />
+
+      <motion.img
+        src={locatariosTitle}
+        alt="Locatarios"
+        className="absolute left-1/2 top-1/2 z-30 w-[900px] max-w-none select-none"
+        style={{ transformOrigin: "center center" }}
+        initial={{
+          x: "-50%",
+          y: "-50%",
+          scale: 0.78,
+          opacity: 0,
+          filter: "blur(10px)",
+        }}
+        animate={{
+          x: ["-50%", "-50%", "-50%"],
+          y: ["-50%", "-50%", "-92%"],
+          scale: [0.78, 1, 0.48],
+          opacity: [0, 1, 1],
+          filter: [
+            "blur(10px) drop-shadow(0 0 0 rgba(33, 74, 24, 0))",
+            "blur(0px) drop-shadow(0 34px 60px rgba(33, 74, 24, 0.22))",
+            "blur(0px) drop-shadow(0 26px 44px rgba(33, 74, 24, 0.18))",
+          ],
+        }}
+        transition={{
+          duration: TITLE_DURATION,
+          times: [0, 0.36, 1],
+          ease: EASE_OUT,
+        }}
+      />
+
+      <LocatariosBoard />
+    </div>
+  );
 }
 
 export default createSlide({
   id: "slide09",
-  title: "Una inteligencia diseñada para expandirse",
-  footer: "La verdadera transformación comienza cuando la tecnología deja de ser una herramienta y se convierte en parte de toda la organización.",
   layout: {
     padding: "pt-[5.2%] pb-[24px]",
   },
